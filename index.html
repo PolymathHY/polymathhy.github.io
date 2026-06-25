@@ -79,7 +79,7 @@
   .band-card .cnt{font-size:.78rem;color:var(--accent);font-weight:600;margin-top:12px;}
   .band-card{cursor:pointer;}
   .band-card .c{margin-bottom:16px;}
-  .bc-stage{position:relative;height:120px;border-radius:11px;overflow:hidden;background:#F2F0EA;border:1px solid var(--line);}
+  .bc-stage{position:relative;height:200px;border-radius:11px;overflow:hidden;background:#F2F0EA;border:1px solid var(--line);}
   .bc-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;font-size:.96rem;font-weight:700;line-height:1.3;opacity:0;transition:opacity .6s ease;}
   .bc-slide.on{opacity:1;}
   .slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
@@ -124,18 +124,59 @@
   .cov-note{margin-top:14px;font-size:.7rem;opacity:.6;border:1px dashed rgba(242,240,234,.45);border-radius:6px;padding:4px 9px;align-self:flex-start;}
   .cover-cap{font-size:.9rem;color:var(--ink-2);text-align:center;max-width:34ch;line-height:1.6;}
 
-  /* 게시판 */
+  /* 게시판 탭 */
+  .board-tabs{display:flex;gap:4px;margin-bottom:22px;border-bottom:2px solid var(--line);}
+  .btab{font-family:var(--kr);font-size:1rem;font-weight:600;color:var(--ink-2);background:none;border:none;padding:12px 20px;cursor:pointer;position:relative;transition:color .15s;}
+  .btab::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--accent);opacity:0;transition:opacity .15s;}
+  .btab.on{color:var(--accent);}
+  .btab.on::after{opacity:1;}
+  .board-panel{display:none;}
+  .board-panel.on{display:block;}
+  .badge.notice{color:#1F2D44;background:#E6EBF4;}
   .board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:16px;}
-  .board-top .write{background:var(--accent);color:var(--paper);font-weight:600;font-size:.88rem;padding:11px 18px;border-radius:10px;}
+  .board-top .write{background:var(--accent);color:var(--paper);font-weight:600;font-size:.88rem;padding:11px 18px;border-radius:10px;border:none;cursor:pointer;font-family:var(--kr);}
   .tbl{width:100%;border-top:1px solid var(--ink);font-size:.96rem;}
-  .tbl .r{display:grid;grid-template-columns:1fr 110px 100px 70px;gap:12px;padding:15px 6px;border-bottom:1px solid var(--line);align-items:center;}
-  .tbl .r.head{font-weight:600;color:var(--ink-2);font-size:.82rem;border-bottom:1px solid var(--line);}
+  .tbl .r{display:grid;grid-template-columns:1fr 110px 100px 70px;gap:12px;padding:15px 6px;border-bottom:1px solid var(--line);align-items:center;cursor:pointer;}
+  .tbl .r.head{font-weight:600;color:var(--ink-2);font-size:.82rem;border-bottom:1px solid var(--line);cursor:default;}
+  .tbl .r:not(.head):hover{background:var(--paper);}
   .tbl .r .ti{font-weight:600;}
-  .tbl .r .badge{font-size:.72rem;color:#0E6E50;background:#E1F5EE;padding:3px 8px;border-radius:6px;display:inline-block;}
+  .tbl .r .badge{font-size:.72rem;color:#0E6E50;background:#E1F5EE;padding:3px 8px;border-radius:6px;display:inline-block;margin-right:6px;}
   .tbl .r .badge.wait{color:#9C6A0E;background:#FAEEDA;}
   .col{font-size:.9rem;color:var(--ink-2);}
   .biz-note{margin-top:24px;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:.88rem;color:var(--ink-2);}
   .biz-note a{color:var(--accent);font-weight:600;}
+  .board-loading{text-align:center;padding:32px;color:var(--ink-3);font-size:.96rem;}
+
+  /* 모달 */
+  .modal-bg{position:fixed;inset:0;background:rgba(28,27,23,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .modal-bg.hide{display:none;}
+  .modal{background:var(--white);border-radius:18px;padding:32px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 32px 64px -32px rgba(28,27,23,.5);}
+  .modal h3{font-size:1.25rem;font-weight:800;margin:0 0 24px;}
+  .mfield{margin-bottom:18px;}
+  .mfield label{display:block;font-size:.88rem;font-weight:600;margin-bottom:7px;color:var(--ink);}
+  .mfield select,.mfield input,.mfield textarea{width:100%;font-family:var(--kr);font-size:.98rem;color:var(--ink);background:var(--canvas);border:1px solid var(--line);border-radius:10px;padding:11px 13px;transition:border-color .15s;}
+  .mfield select:focus,.mfield input:focus,.mfield textarea:focus{outline:none;border-color:var(--accent);background:#fff;}
+  .mfield textarea{resize:vertical;min-height:110px;}
+  .mfield .hint{font-size:.78rem;color:var(--ink-3);margin-top:5px;}
+  .mrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
+  .mbtn{font-family:var(--kr);font-size:.96rem;font-weight:600;padding:11px 20px;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:background .15s;}
+  .mbtn.primary{background:var(--accent);color:var(--paper);border-color:var(--accent);}
+  .mbtn.primary:hover{background:var(--accent-soft,#2C3E5C);}
+  .mbtn.cancel{background:none;color:var(--ink-2);}
+  .mbtn.cancel:hover{background:var(--paper-2);}
+
+  /* 글 상세 */
+  .post-view{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:28px;margin-top:4px;}
+  .post-meta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line);}
+  .post-meta span{font-size:.88rem;color:var(--ink-2);}
+  .post-meta strong{color:var(--ink);}
+  .post-body{font-size:1rem;line-height:1.85;color:var(--ink);white-space:pre-wrap;margin-bottom:24px;}
+  .post-answer{background:var(--paper);border-radius:12px;padding:20px;border-left:3px solid var(--accent);}
+  .post-answer .ah{font-size:.86rem;font-weight:700;color:var(--accent);margin-bottom:10px;}
+  .post-answer p{margin:0;font-size:.96rem;color:var(--ink-2);line-height:1.8;}
+  .post-back{font-size:.92rem;font-weight:600;color:var(--ink-2);background:none;border:none;cursor:pointer;padding:0;margin-bottom:20px;font-family:var(--kr);}
+  .post-back:hover{color:var(--ink);}
 
   /* 가이드 */
   .guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px;}
@@ -148,9 +189,23 @@
   .guide-card li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--ink-3);}
 
   /* 저작권 */
-  .lic{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:30px;max-width:720px;}
-  .lic p{color:var(--ink-2);margin-bottom:14px;}
-  .lic .free{color:var(--ink);font-weight:600;}
+  .lic{max-width:760px;}
+  .copy-block{border-radius:14px;padding:24px 26px;margin-bottom:18px;}
+  .copy-block.ok{background:#EDF7EE;border:1px solid #C3E6C8;}
+  .copy-block.warn{background:#FEF3E2;border:1px solid #F9D89A;}
+  .copy-block.law{background:#EEF1F8;border:1px solid #C9D3E8;}
+  .copy-block.faq{background:var(--white);border:1px solid var(--line);}
+  .copy-block-title{font-size:1.05rem;font-weight:800;margin-bottom:14px;color:var(--ink);}
+  .copy-block p{font-size:.96rem;color:var(--ink-2);line-height:1.8;margin:0;}
+  .copy-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .copy-list li{font-size:.96rem;color:var(--ink-2);line-height:1.7;padding-left:16px;position:relative;}
+  .copy-list li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--ink-3);}
+  .copy-faq{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0;}
+  .copy-faq li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:5px;}
+  .copy-faq li:last-child{border-bottom:none;}
+  .faq-q{font-size:.96rem;font-weight:700;color:var(--ink);}
+  .faq-a{font-size:.93rem;color:var(--ink-2);line-height:1.7;}
+  .copy-note{margin-top:16px;font-size:.84rem;color:var(--ink-3);font-style:italic;padding-top:14px;border-top:1px solid var(--line);}
   .biz-box{margin-top:22px;padding-top:22px;border-top:1px solid var(--line);}
   .biz-box .btn{display:inline-block;background:#E2623C;color:#fff;font-weight:600;padding:13px 22px;border-radius:11px;margin-top:6px;}
 
@@ -196,7 +251,7 @@
     <div class="home-hero">
       <div>
         <p class="eyebrow">보고 만지며 익히는 배움</p>
-        <h1>교실에서 시작한 배움이,<br>집에서도 이어집니다</h1>
+        <h1>교육과정을 그대로,<br>우리 반 앱으로</h1>
         <p class="sub">초등 1~6학년을 위한 학습 웹앱. 우리 반에 맞게, 우리 아이에게 맞게 — 화면 속에서 개념이 살아납니다.</p>
         <a class="btn" data-p="apps">앱 둘러보기</a>
       </div>
@@ -254,21 +309,78 @@
 
   <!-- 게시판 -->
   <section class="page" id="board">
-    <p class="eyebrow">Q & A</p>
+    <p class="eyebrow">Board</p>
     <h1 class="t">게시판</h1>
     <p class="muted" style="margin-bottom:24px;">앱을 쓰다 막히거나 오류를 발견하면 올려 주세요. 함께 보면 도움 되는 질문은 여기에서 답해 드립니다.</p>
-    <div class="board-top">
-      <span class="col">전체 글 · 예시</span>
-      <a class="write">글쓰기</a>
+
+    <div class="board-tabs">
+      <button class="btab on" data-tab="notice">공지사항</button>
+      <button class="btab" data-tab="qna">질문</button>
     </div>
-    <div class="tbl">
-      <div class="r head"><span>제목</span><span>작성자</span><span>날짜</span><span class="views">조회</span></div>
-      <div class="r"><span class="ti ph">자릿값 탐험가에서 만 단위가 안 보여요 <span class="badge">답변완료</span></span><span class="col">김○○</span><span class="col">06.16</span><span class="col views">24</span></div>
-      <div class="r"><span class="ti ph">시트 연동이 안 되는데 권한 문제일까요? <span class="badge wait">답변대기</span></span><span class="col">이○○</span><span class="col">06.15</span><span class="col views">11</span></div>
-      <div class="r"><span class="ti ph">그림그래프 마법사 색을 바꾸고 싶어요 <span class="badge">답변완료</span></span><span class="col">박○○</span><span class="col">06.14</span><span class="col views">37</span></div>
+
+    <!-- 공지사항 -->
+    <div class="board-panel on" id="tab-notice">
+      <div id="noticeList"><div class="board-loading">불러오는 중...</div></div>
     </div>
+
+    <!-- 질문 -->
+    <div class="board-panel" id="tab-qna">
+      <div id="postView" class="hide"></div>
+      <div id="qnaMain">
+        <div class="board-top">
+          <span class="col" id="qnaCount">불러오는 중...</span>
+          <button class="write" id="writeBtn">글쓰기</button>
+        </div>
+        <div id="qnaList"><div class="board-loading">불러오는 중...</div></div>
+      </div>
+    </div>
+
     <div class="biz-note">영리적 이용에 대한 문의는 게시판이 아니라 <a data-p="copy">저작권 페이지의 비공개 문의</a>로 보내 주세요.</div>
   </section>
+
+  <!-- 글쓰기 모달 -->
+  <div class="modal-bg hide" id="writeModal">
+    <div class="modal">
+      <h3>질문 올리기</h3>
+      <div class="mrow">
+        <div class="mfield">
+          <label>분류</label>
+          <select id="f-category">
+            <option>오류 신고</option>
+            <option>사용 질문</option>
+            <option>기타</option>
+          </select>
+        </div>
+        <div class="mfield">
+          <label>관련 앱</label>
+          <select id="f-app"></select>
+        </div>
+      </div>
+      <div class="mfield">
+        <label>제목</label>
+        <input type="text" id="f-title" placeholder="제목을 입력해 주세요" />
+      </div>
+      <div class="mfield">
+        <label>내용</label>
+        <textarea id="f-content" placeholder="궁금한 점이나 오류 상황을 자세히 적어 주세요"></textarea>
+      </div>
+      <div class="mrow">
+        <div class="mfield">
+          <label>작성자</label>
+          <input type="text" id="f-author" placeholder="닉네임 또는 이름" />
+        </div>
+        <div class="mfield">
+          <label>비밀번호</label>
+          <input type="password" id="f-password" placeholder="삭제 시 필요해요" />
+          <div class="hint">숫자 4자리 이상 권장</div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="mbtn cancel" id="modalCancel">취소</button>
+        <button class="mbtn primary" id="modalSubmit">올리기</button>
+      </div>
+    </div>
+  </div>
 
   <!-- 가이드 -->
   <section class="page" id="guide">
@@ -308,15 +420,55 @@
   <!-- 저작권 -->
   <section class="page" id="copy">
     <p class="eyebrow">License</p>
-    <h1 class="t">저작권 안내</h1>
+    <h1 class="t">이 웹앱을 쓰는 약속</h1>
     <div class="lic">
-      <p class="free" id="c-use">이 앱들은 학교와 가정에서 교육 목적으로 자유롭게 쓰실 수 있습니다.</p>
-      <p class="ph">※ 책의 '저작권 관련 주의사항' 원문이 이 자리에 들어갑니다. (외부 자료·악보 등 주의사항 포함)</p>
+
+      <!-- 목적 -->
+      <p style="font-size:1.05rem;color:var(--ink-2);line-height:1.8;margin-bottom:28px;">이 웹앱은 교실과 가정에서 쓰도록 만들었습니다. 선생님의 수업을 돕고, 부모와 자녀가 함께하는 학습을 돕는 것이 목적입니다.</p>
+
+      <!-- 이렇게 쓰셔도 됩니다 -->
+      <div class="copy-block ok">
+        <div class="copy-block-title">허용 범위</div>
+        <ul class="copy-list">
+          <li><strong>교사</strong> — 맡으신 학급의 학생들과 함께 수업에 활용합니다.</li>
+          <li><strong>학부모</strong> — 가정에서 자녀와 함께 사용합니다.</li>
+        </ul>
+      </div>
+
+      <!-- 자제해 주세요 -->
+      <div class="copy-block warn">
+        <div class="copy-block-title">자제해 주세요</div>
+        <p>이 웹앱의 링크(주소)를 다른 선생님·학부모님께 배포하지 말아 주세요. 링크가 무분별하게 퍼지면 이런 교육자료를 만들고 이어 가는 사람들의 자리가 사라집니다. 누군가에게 권하고 싶을 때는 링크 대신 이 책을 소개하거나 저희에게 문의해 주세요.</p>
+      </div>
+
+      <!-- 관련 규정 -->
+      <div class="copy-block law">
+        <div class="copy-block-title">관련 규정</div>
+        <p>이 웹앱은 「저작권법」상 보호받는 저작물(컴퓨터프로그램 등)이며, 저작권자는 복제권(제16조)·공중송신권(제18조)·배포권(제20조)을 가집니다.</p>
+        <p style="margin-top:12px;">학급·가정에서의 사용은 저작권자가 허락한 범위 안의 일입니다. 그러나 링크를 퍼뜨려 불특정 다수가 접근하게 하는 행위는 공중송신권·배포권 침해에 해당할 수 있고, 「저작권법」 제136조 제1항에 따라 5년 이하 징역 또는 5천만 원 이하 벌금, 제125조에 따른 손해배상 책임이 따를 수 있습니다.</p>
+      </div>
+
+      <!-- 자주 묻는 상황 -->
+      <div class="copy-block faq">
+        <div class="copy-block-title">자주 묻는 상황</div>
+        <ul class="copy-faq">
+          <li><span class="faq-q">옆 반·다른 학교 선생님이 링크를 부탁할 때</span><span class="faq-a">링크 대신 책을 소개해 주세요. 그 선생님도 자기 교실에서 똑같이 쓰실 수 있습니다.</span></li>
+          <li><span class="faq-q">우리 반 학생에게 전달</span><span class="faq-a">됩니다. 이것이 앱의 본래 목적입니다. 단, '학생이 쓰는 링크'여야지 원본 시트·코드 사본을 통째로 넘기는 것은 배포입니다.</span></li>
+          <li><span class="faq-q">집에서 복습하도록 학부모께 링크 안내</span><span class="faq-a">자녀 가정 학습 목적이면 괜찮습니다. 다만 학부모가 다른 학부모에게 재공유하는 것은 무단 배포입니다.</span></li>
+          <li><span class="faq-q">학부모 단톡방·맘카페에 공유</span><span class="faq-a">자제해 주세요. 무단 배포에 해당할 수 있습니다. 책을 추천해 주세요.</span></li>
+          <li><span class="faq-q">학원에 알려주기</span><span class="faq-a">영리 기관이라 특히 주의가 필요합니다. 자료 전달은 피하고 책을 추천해 주세요.</span></li>
+          <li><span class="faq-q">학생이 친구에게 링크 전달</span><span class="faq-a">친구에게 보내기보다 그 친구의 선생님께 여쭤보라고 알려주세요.</span></li>
+        </ul>
+        <p class="copy-note">위의 내용은 일반적인 저작권 상식이며 법률 자문이 아닙니다. 구체적 사안은 한국저작권위원회 상담(1800-5455)을 이용하세요.</p>
+      </div>
+
+      <!-- 영리 문의 -->
       <div class="biz-box" id="c-inq">
         <h2 class="s" style="margin-bottom:8px;">영리 목적으로 활용하고 싶으신가요?</h2>
         <p class="muted">유료 강좌·판매·기관 서비스 등 영리 목적의 활용은 먼저 연락 주세요. 1:1로 협의해 드립니다.</p>
         <a class="btn">영리적 이용 문의</a>
       </div>
+
     </div>
   </section>
 
@@ -342,8 +494,8 @@
 
 <footer>
   <div class="wrap ft">
-    <span>저자 장희영 (필명 Polymath) · e-끌림 교육연구회</span>
-    <span class="ph">© 2026 · 구매처 · 영리 문의 · 저작권 링크 자리</span>
+    <span>GEG Hwaseong · 깊이 e-끌림 교육연구회</span>
+    <span>© 2026 교육과정을 코드로 옮기다</span>
   </div>
 </footer>
 
@@ -508,6 +660,208 @@
 
   var _heroImg = document.getElementById('heroImg');
   if(_heroImg) _heroImg.src = TEST_IMG;
+
+  // ── 게시판 GAS 연동 ─────────────────────────────────────────
+  // ▼▼ GAS 배포 후 받은 URL로 교체하세요 ▼▼
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyjgox7IqhCuXpo1jZVK8hWNE7pNU_BC65DH7CdhzmehtSjJsRoYAoNXpRxc0iu47B-eQ/exec';
+
+  const APP_LIST = [
+    '해당 없음',
+    '우리 반 앱 꾸러미','우리 반 도우미','유초이음 적응 앱','마음 튼튼 새싹 학교',
+    '우리 반 무지개 줄넘기','생각 보물 사냥꾼','지구지킴이','함께 배우는 안전 나침반',
+    '한글자모탐험','받침놀이터','띄어쓰기 학습 놀이터','문장부호 스티커북',
+    '한 문장 일기장','감정 알기 대모험','꾸며주는 말 탐험대','겹받침 읽고 쓰기',
+    '헷갈리기 쉬운 낱말','순서대로 말해요','그림에 어울리는 문장 완성하기',
+    '수학요정의 숫자비교','모으기와 가르기','50까지의 수모험','10 만들기',
+    '시계요정의 하루','다함께 도형 탐험대','창의 분류 박물관','묶어 세기 탐험대',
+    '몇의 몇 배 탐험대','곱셈구구 2단·5단','그림그래프 마법사',
+    '안전탐험','슬기로운 학교생활','학교 사람 탐험대','소리 탐험대',
+    '나의 비밀친구','나만의 보물상자','분리수거 대장','사계절 탐정',
+    '자릿값 탐험가','분수 조각 공방','막대그래프 데이터 탐구실',
+    '꺾은선그래프 변화 탐구실','각도 챌린지','말모아 탐정',
+    '정직 탐험대','국가유산 가이드','리코더 첫걸음','PAPS 자기관리 (4학년)',
+    'PAPS 자기관리 (5·6학년)'
+  ];
+
+  // 앱 드롭다운 채우기
+  var fApp = document.getElementById('f-app');
+  if(fApp) APP_LIST.forEach(function(a){
+    var o = document.createElement('option'); o.textContent = a; fApp.appendChild(o);
+  });
+
+  // GAS 호출 헬퍼
+  function gasGet(params) {
+    var url = GAS_URL + '?' + Object.keys(params).map(function(k){
+      return encodeURIComponent(k)+'='+encodeURIComponent(params[k]);
+    }).join('&');
+    return fetch(url).then(function(r){ return r.json(); });
+  }
+  function gasPost(body) {
+    return fetch(GAS_URL, {
+      method:'POST',
+      body: JSON.stringify(body)
+    }).then(function(r){ return r.json(); });
+  }
+
+  // 공지사항 로드
+  function loadNotices() {
+    if(GAS_URL === 'YOUR_GAS_DEPLOY_URL'){
+      document.getElementById('noticeList').innerHTML =
+        '<div class="board-loading">GAS URL을 연결하면 공지사항이 표시됩니다.</div>';
+      return;
+    }
+    gasGet({action:'getNotices'}).then(function(res){
+      if(!res.ok || !res.rows.length){
+        document.getElementById('noticeList').innerHTML =
+          '<div class="board-loading">등록된 공지사항이 없어요.</div>';
+        return;
+      }
+      var html = '<div class="tbl"><div class="r head"><span>제목</span><span>날짜</span></div>';
+      res.rows.forEach(function(r){
+        html += '<div class="r notice-row" data-content="'+encodeURIComponent(r.content)+'" data-title="'+encodeURIComponent(r.title)+'">'
+          +'<span class="ti"><span class="badge notice">공지</span>'+r.title+'</span>'
+          +'<span class="col">'+r.date+'</span></div>';
+      });
+      html += '</div>';
+      document.getElementById('noticeList').innerHTML = html;
+    }).catch(function(){
+      document.getElementById('noticeList').innerHTML =
+        '<div class="board-loading">불러오기 실패. 잠시 후 다시 시도해 주세요.</div>';
+    });
+  }
+
+  // 질문 목록 로드
+  function loadQna() {
+    if(GAS_URL === 'YOUR_GAS_DEPLOY_URL'){
+      document.getElementById('qnaList').innerHTML =
+        '<div class="board-loading">GAS URL을 연결하면 질문 목록이 표시됩니다.</div>';
+      document.getElementById('qnaCount').textContent = '';
+      return;
+    }
+    gasGet({action:'getQna'}).then(function(res){
+      if(!res.ok){
+        document.getElementById('qnaList').innerHTML =
+          '<div class="board-loading">불러오기 실패.</div>'; return;
+      }
+      document.getElementById('qnaCount').textContent = '전체 ' + res.rows.length + '개';
+      if(!res.rows.length){
+        document.getElementById('qnaList').innerHTML =
+          '<div class="board-loading">아직 질문이 없어요. 첫 번째로 올려보세요!</div>'; return;
+      }
+      var html = '<div class="tbl"><div class="r head"><span>제목</span><span>분류</span><span>작성자</span><span>날짜</span></div>';
+      res.rows.forEach(function(r){
+        html += '<div class="r qna-row" data-no="'+r.no+'">'
+          +'<span class="ti">'+(r.answered?'<span class="badge">답변완료</span>':'<span class="badge wait">답변대기</span>')+r.title+'</span>'
+          +'<span class="col">'+r.category+'</span>'
+          +'<span class="col">'+r.author+'</span>'
+          +'<span class="col">'+r.date+'</span>'
+          +'</div>';
+      });
+      html += '</div>';
+      document.getElementById('qnaList').innerHTML = html;
+      document.querySelectorAll('.qna-row').forEach(function(row){
+        row.addEventListener('click', function(){ loadPost(row.dataset.no); });
+      });
+    });
+  }
+
+  // 글 상세
+  function loadPost(no) {
+    gasGet({action:'getPost', no:no}).then(function(res){
+      if(!res.ok){ alert(res.msg); return; }
+      var p = res.post;
+      var ansHtml = p.answer
+        ? '<div class="post-answer"><div class="ah">운영자 답변 · '+p.answerDate+'</div><p>'+p.answer+'</p></div>'
+        : '<p style="color:var(--ink-3);font-size:.92rem;">아직 답변이 달리지 않았어요.</p>';
+      document.getElementById('postView').innerHTML =
+        '<button class="post-back" id="backBtn">← 목록으로</button>'
+        +'<div class="post-view">'
+        +'<div class="post-meta">'
+        +'<span><strong>'+p.category+'</strong></span>'
+        +'<span>앱: <strong>'+p.app+'</strong></span>'
+        +'<span>작성자: <strong>'+p.author+'</strong></span>'
+        +'<span>'+p.date+'</span>'
+        +'</div>'
+        +'<h2 style="font-size:1.25rem;font-weight:800;margin:0 0 18px;">'+p.title+'</h2>'
+        +'<div class="post-body">'+p.content+'</div>'
+        +ansHtml
+        +'<div style="margin-top:20px;display:flex;gap:10px;">'
+        +'<button class="mbtn cancel" id="deleteBtn" data-no="'+p.no+'">삭제</button>'
+        +'</div>'
+        +'</div>';
+      document.getElementById('postView').classList.remove('hide');
+      document.getElementById('qnaMain').style.display = 'none';
+      document.getElementById('backBtn').addEventListener('click', function(){
+        document.getElementById('postView').classList.add('hide');
+        document.getElementById('postView').innerHTML = '';
+        document.getElementById('qnaMain').style.display = '';
+      });
+      document.getElementById('deleteBtn').addEventListener('click', function(){
+        var pw = prompt('비밀번호를 입력해 주세요.');
+        if(!pw) return;
+        gasPost({action:'deleteQna', no:parseInt(no), password:pw}).then(function(res){
+          alert(res.msg);
+          if(res.ok){
+            document.getElementById('postView').classList.add('hide');
+            document.getElementById('qnaMain').style.display = '';
+            loadQna();
+          }
+        });
+      });
+    });
+  }
+
+  // 글쓰기 모달
+  document.getElementById('writeBtn').addEventListener('click', function(){
+    document.getElementById('writeModal').classList.remove('hide');
+  });
+  document.getElementById('modalCancel').addEventListener('click', function(){
+    document.getElementById('writeModal').classList.add('hide');
+  });
+  document.getElementById('modalSubmit').addEventListener('click', function(){
+    var title = document.getElementById('f-title').value.trim();
+    var content = document.getElementById('f-content').value.trim();
+    var author = document.getElementById('f-author').value.trim();
+    var password = document.getElementById('f-password').value.trim();
+    if(!title || !content || !author || !password){
+      alert('모든 항목을 입력해 주세요.'); return;
+    }
+    document.getElementById('modalSubmit').textContent = '올리는 중...';
+    document.getElementById('modalSubmit').disabled = true;
+    gasPost({
+      action: 'postQna',
+      category: document.getElementById('f-category').value,
+      app: document.getElementById('f-app').value,
+      title: title, content: content, author: author, password: password
+    }).then(function(res){
+      alert(res.msg);
+      if(res.ok){
+        document.getElementById('writeModal').classList.add('hide');
+        document.getElementById('f-title').value = '';
+        document.getElementById('f-content').value = '';
+        document.getElementById('f-author').value = '';
+        document.getElementById('f-password').value = '';
+        loadQna();
+      }
+      document.getElementById('modalSubmit').textContent = '올리기';
+      document.getElementById('modalSubmit').disabled = false;
+    });
+  });
+
+  // 게시판 탭
+  document.querySelectorAll('.btab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.btab').forEach(function(b){ b.classList.remove('on'); });
+      document.querySelectorAll('.board-panel').forEach(function(p){ p.classList.remove('on'); });
+      btn.classList.add('on');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
+      if(btn.dataset.tab === 'notice') loadNotices();
+      if(btn.dataset.tab === 'qna') loadQna();
+    });
+  });
+
+  // 초기 로드
+  loadNotices();
 
   setBand("1-2");
   renderSideMenu();
