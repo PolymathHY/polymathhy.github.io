@@ -161,8 +161,30 @@
   .note-line{font-size:.92rem;color:var(--ink-3);margin-bottom:22px;}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:18px;}
   @media(max-width:760px){.apps-layout{grid-template-columns:1fr;}.apps-side{position:static;}}
-  .app-card{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .2s,transform .2s;}
-  .app-card:hover{border-color:var(--ink-2);transform:translateY(-3px);}
+  .app-card{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .25s;}
+  .app-card .slide-img{transition:transform .6s cubic-bezier(.2,.7,.2,1);}
+  .app-card:hover{border-color:var(--ink-2);}
+  .app-card:hover .slide-img{transform:scale(1.08);}
+  .app-card:active{transform:scale(.99);}
+
+  /* ── 버튼 클릭(누름) 피드백 ─────────────────────────── */
+  nav .lk, .book, .book.outline, .btab, .side-band, .side-subj button,
+  .board-top .write, .mbtn, .buy-link{
+    transition:color .18s,background .18s,border-color .18s,transform .11s ease,box-shadow .18s;}
+  nav .lk:active, .book:active, .book.outline:active, .btab:active,
+  .side-band:active, .side-subj button:active, .board-top .write:active,
+  .mbtn:active, .buy-link:active{transform:translateY(1px) scale(.97);}
+  /* 가이드 카드·세부항목 클릭 피드백 */
+  .g-card:active{transform:translateY(0) scale(.985);}
+  .g-sub-item{transition:background .15s,transform .11s ease;}
+  .g-sub-item:active{background:var(--paper-2);transform:scale(.99);}
+  /* 헤더 구매 버튼: 클릭하는 순간 남색으로 채워져 또렷하게 */
+  .book.outline:active{background:var(--accent);color:var(--paper);}
+  /* 상단 메뉴: 현재 페이지는 은은한 밑줄 인디케이터로만 표시 */
+  nav .lk{position:relative;}
+  nav .lk.on{color:var(--ink);font-weight:700;background:none;}
+  nav .lk.on:hover{background:none;}
+  nav .lk.on::after{content:"";position:absolute;left:13px;right:13px;bottom:-1px;height:2px;background:var(--accent);border-radius:2px 2px 0 0;}
   .thumb{height:118px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;}
   .app-meta{padding:14px 15px 16px;}
   .app-meta .nm{font-size:1.04rem;font-weight:700;letter-spacing:-.01em;margin-bottom:7px;line-height:1.35;}
@@ -290,8 +312,18 @@
   .g-callout.tip{background:#FDF6E3;border:1px solid #EDDFAE;}
   .g-callout.tip .g-callout-tag{color:#8A6A0E;}
   .g-callout.tip .g-callout-body{color:#5E4A12;}
+  .g-callout.info{background:var(--paper);border:1px solid var(--line);}
+  .g-callout.info .g-callout-tag{color:var(--accent);}
+  .g-callout.info .g-callout-body{color:var(--ink-2);}
 
   .g-img-ph{border:1.5px dashed var(--line);border-radius:12px;padding:34px 20px;text-align:center;color:var(--ink-3);font-size:.86rem;font-style:italic;margin:16px 0 22px;background:var(--paper);}
+  /* 실제 이미지 figure */
+  .g-fig{margin:18px 0 22px;}
+  .g-fig-imgs{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:center;}
+  .g-fig-imgs img{flex:1 1 240px;min-width:0;max-width:100%;border:1px solid var(--line);border-radius:10px;background:#FBFAF7;display:block;}
+  .g-fig-imgs.solo img{flex:0 1 auto;max-width:100%;margin:0 auto;}
+  .g-fig-cap{font-size:.85rem;color:var(--ink-3);text-align:center;margin-top:10px;}
+  .g-fig-cap::before{content:"▲ ";color:var(--accent);}
   .g-fn{font-size:.78rem;color:var(--ink-3);margin-top:26px;padding-top:14px;border-top:1px solid var(--line);line-height:1.6;}
 
   /* 저작권 */
@@ -546,18 +578,18 @@
     <div class="g-cards" id="gCards">
       <div class="g-card" data-guide="db">
         <div class="g-card-num">01</div>
-        <div class="g-card-title">웹앱 시작 전 준비</div>
-        <div class="g-card-sub">구글 계정 · 시트 · 앱스스크립트</div>
+        <div class="g-card-title">구글 시트 · 앱스 스크립트</div>
+        <div class="g-card-sub">웹앱 활용 준비하기</div>
       </div>
       <div class="g-card" data-guide="ag">
         <div class="g-card-num">02</div>
-        <div class="g-card-title">앱 만들기</div>
-        <div class="g-card-sub">구글 안티그래비티</div>
+        <div class="g-card-title">구글 안티그래비티</div>
+        <div class="g-card-sub">웹앱 코드 수정하기</div>
       </div>
       <div class="g-card" data-guide="gh">
         <div class="g-card-num">03</div>
-        <div class="g-card-title">앱 올리기</div>
-        <div class="g-card-sub">깃허브(GitHub)</div>
+        <div class="g-card-title">깃허브(GitHub) 페이지</div>
+        <div class="g-card-sub">웹앱 배포하고 관리하기</div>
       </div>
     </div>
 
@@ -1408,49 +1440,152 @@
   // ── 가이드 2단계 탐색 ────────────────────────────────────────
   var GUIDE_DATA = {
     db: {
-      title: '웹앱 시작 전 준비',
+      title: '구글 시트와 앱스 스크립트로 웹앱 활용 준비하기',
       items: [
-        { idx:'가', name:'구글 계정 가입과 로그인', content: `
-          <h3>구글 계정 가입과 로그인</h3>
-          <p class="g-lead">구글 계정 하나면 Gmail, 구글 드라이브·문서, 구글 클래스룸 같은 구글 도구를 모두 쓸 수 있습니다. 크롬에서 구글 계정에 로그인하는 방법과, 계정이 없을 때 새로 가입하는 방법을 순서대로 안내합니다.</p>
-          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">크롬은 자주 업데이트되어 버전에 따라 화면 모양이 조금씩 다를 수 있습니다. 큰 흐름은 같으니 안내된 버튼 이름을 화면에서 찾아 누르시면 됩니다. (2026년 기준)</span></div>
+        { idx:'가', name:'학습 데이터 관리에 구글 시트 활용하기', content: `
+          <h3>학습 데이터 관리에 구글 시트 활용하기</h3>
+          <p class="g-lead">학생이 무엇을·어떻게·얼마나 학습했는지에 대한 데이터는 한 번 보고 버릴 정보가 아니라, 누적하고 분석할 때 비로소 가치가 드러나는 자산입니다. 이 책의 웹앱은 그 데이터를 구글 시트에 모으고, 시트를 가벼운 데이터베이스처럼 활용합니다.</p>
 
-          <div class="g-h4">1. 로그인 화면 열기</div>
-          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">크롬 오른쪽 위의 프로필 아이콘을 누르고, 메뉴에서 'Chrome 프로필 추가'(또는 'Chrome에 로그인')를 누릅니다.</div></div></div>
-          <div class="g-img-ph">스크린샷 자리 — 프로필 아이콘 → Chrome 프로필 추가</div>
-
-          <div class="g-h4">2. 이미 계정이 있다면 — 로그인하기</div>
-          <div class="g-step"><div class="g-step-num">가</div><div class="g-step-body"><div class="g-step-text">'Chrome에 로그인' 화면의 칸에 이메일(또는 휴대전화 번호)을 입력하고 '다음'을 누릅니다.</div></div></div>
-          <div class="g-step"><div class="g-step-num">나</div><div class="g-step-body"><div class="g-step-text">비밀번호를 입력하고 '다음'을 누릅니다.</div></div></div>
-          <div class="g-step"><div class="g-step-num">다</div><div class="g-step-body"><div class="g-step-text">안내(2단계 인증 등)가 나오면 따라 진행합니다. 로그인이 끝나면 오른쪽 위 프로필 아이콘이 내 사진이나 이니셜로 바뀝니다.</div></div></div>
-          <div class="g-callout tip"><span class="g-callout-tag">팁</span><span class="g-callout-body">비밀번호가 기억나지 않으면 '이메일을 잊으셨나요?' 또는 비밀번호 찾기 안내를 따라 다시 설정할 수 있습니다.</span></div>
-
-          <div class="g-h4">3. 계정이 없다면 — 새로 가입하기</div>
-          <p class="g-p">'Chrome에 로그인' 화면에서 '계정 만들기'를 누른 뒤, 아래 순서를 따라갑니다.</p>
-          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-title">이름 입력</div><div class="g-step-text">성(선택사항)과 이름을 적고 '다음'을 누릅니다.</div></div></div>
-          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-title">기본 정보</div><div class="g-step-text">생년월일(연·월·일)과 성별을 고르고 '다음'을 누릅니다.</div></div></div>
-          <div class="g-step"><div class="g-step-num">3</div><div class="g-step-body"><div class="g-step-title">Gmail 주소 만들기</div><div class="g-step-text">원하는 사용자 이름을 정하면 '@gmail.com' 주소가 만들어집니다. (이미 쓰는 이메일이 있으면 '기존 이메일 사용'을 골라도 됩니다.)</div></div></div>
-          <div class="g-step"><div class="g-step-num">4</div><div class="g-step-body"><div class="g-step-title">비밀번호 만들기</div><div class="g-step-text">문자·숫자·기호를 섞어 안전한 비밀번호를 정하고, '확인'란에 한 번 더 입력한 뒤 '다음'을 누릅니다.</div></div></div>
-          <div class="g-step"><div class="g-step-num">5</div><div class="g-step-body"><div class="g-step-title">프로필 색 정하기</div><div class="g-step-text">'Chrome 프로필 맞춤설정' 창이 뜨면 원하는 색을 고르고 '완료'를 누릅니다. 나중에 언제든 바꿀 수 있습니다.</div></div></div>
-          <div class="g-img-ph">스크린샷 자리 — Google 계정 만들기 단계별 화면</div>
-
-          <div class="g-h4">4. 가입·로그인 후 챙길 것</div>
+          <div class="g-h4">1. 학습 데이터의 교육적 가치</div>
+          <p class="g-p">누적된 학습 데이터가 있을 때에만 다음과 같은 통찰을 얻을 수 있습니다.</p>
           <ul class="g-sublist">
-            <li><strong>로그인 확인</strong> — 오른쪽 위 프로필 아이콘이 내 사진·이니셜로 바뀌었는지 보면 로그인 여부를 알 수 있습니다.</li>
-            <li><strong>안전하게 지키기</strong> — 비밀번호는 다른 곳과 다르게 정하고, 설정에서 2단계 인증을 켜 두면 더 안전합니다.</li>
+            <li>어떤 학생이 어느 단원에서 자주 틀리는지</li>
+            <li>시간이 지나면서 실력이 어떻게 변하는지</li>
+            <li>어떤 유형의 문제가 학습 효과가 높은지</li>
           </ul>
-          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">공용 컴퓨터(교무실·도서관 등)에서는 다 쓰고 나면 반드시 로그아웃하고, 인터넷 사용 기록을 삭제하세요(Ctrl + Shift + Delete). 비밀번호 저장 창이 뜨면 '아니요'를 누르는 것이 안전합니다.</span></div>
-          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">이 과정은 본인(성인)의 계정을 만드는 절차입니다. 학생(특히 어린 학생)이 쓸 계정은 보통 학교에서 발급하거나 보호자 동의가 필요하므로, 학교 정책에 따라 만들어야 합니다.</span></div>
+          <p class="g-p">그래서 데이터를 안전하게 보관할 데이터베이스가 반드시 필요합니다.</p>
+          <div class="g-callout info"><span class="g-callout-tag">용어</span><span class="g-callout-body">데이터베이스는 데이터를 체계적으로 저장하고, 필요할 때 다시 꺼내 쓸 수 있게 정리해 두는 ‘디지털 창고’입니다.</span></div>
+
+          <div class="g-h4">2. 학습 데이터 저장소의 조건</div>
+          <p class="g-p">여러 저장 방법을 검토하며 다음 조건을 중요하게 따졌습니다.</p>
+          <ul class="g-sublist">
+            <li><strong>관리가 쉬울 것</strong> — 개발자가 아니어도 다룰 수 있어야 합니다.</li>
+            <li><strong>직접 보고 고칠 수 있을 것</strong> — 데이터가 어떻게 쌓이는지 눈으로 확인하고 수정할 수 있어야 합니다.</li>
+            <li><strong>실시간으로 쌓일 것</strong> — 학생이 입력하는 즉시 저장되어야 합니다.</li>
+            <li><strong>함께 쓸 수 있을 것</strong> — 동료 교사와 공유하고 권한을 나눌 수 있어야 합니다.</li>
+            <li><strong>바로 시작할 수 있을 것</strong> — 복잡한 설치 없이 복사만으로 쓸 수 있으면 가장 좋습니다.</li>
+          </ul>
+
+          <div class="g-h4">3. 스프레드시트가 적합한 이유</div>
+          <p class="g-p">이 조건들을 두루 만족하는 것이 바로 스프레드시트였습니다. 표 형태라 누구나 데이터를 직관적으로 다룰 수 있다는 점이 결정적이었습니다.</p>
+          <ul class="g-sublist">
+            <li><strong>표로 직접 확인·수정</strong> — 데이터가 쌓이는 모습을 셀 단위로 보고, 필요하면 그 자리에서 고칠 수 있습니다.</li>
+            <li><strong>별도 백엔드 없이 데이터베이스 역할</strong> — 클라우드 스프레드시트는 웹앱과 연동(API 연동)하면 그 자체로 가벼운 데이터베이스가 됩니다.</li>
+            <li><strong>실시간 동기화</strong> — 학생이 앱에서 입력한 내용이 시트에 곧바로 반영되어 따로 저장할 필요가 없습니다.</li>
+            <li><strong>협업·권한 관리</strong> — 같은 시트를 공유하고 접근 권한을 보기 전용·편집 가능으로 나눠 안전하게 관리합니다.</li>
+          </ul>
+          <div class="g-callout info"><span class="g-callout-tag">용어</span><span class="g-callout-body">백엔드는 사용자 눈에 보이지 않는 곳에서 데이터를 저장·처리하는 ‘뒷단’ 시스템입니다. 보통은 따로 만들어야 하지만, 클라우드 스프레드시트가 그 역할을 대신해 줍니다. API 연동은 웹앱과 시트가 서로 데이터를 주고받도록 연결하는 것을 말합니다.</span></div>
+
+          <div class="g-h4">4. 사본 한 번으로 저장소 만들기</div>
+          <p class="g-p">복잡한 설치나 설정 없이, 준비된 시트를 복사하는 것만으로 나만의 학습 데이터 저장소가 만들어집니다.</p>
+          <ul class="g-sublist">
+            <li><strong>복사 한 번으로 완성</strong> — 스프레드시트를 복제하면 시트의 데이터와 앱스 스크립트 코드로 웹앱을 실행할 수 있고, 학생들의 학습 데이터가 차곡차곡 쌓이기 시작합니다.</li>
+            <li><strong>예산 걱정 없음</strong> — 구글 계정만 있으면 기기와 상관없이 모든 기능을 무료로 씁니다.</li>
+            <li><strong>개인정보 보호</strong> — 사본은 각자의 드라이브에 독립된 파일로 생겨, 데이터가 서로 섞일 걱정 없이 학생의 기록을 보호합니다.</li>
+          </ul>
+          <div class="g-callout tip"><span class="g-callout-tag">팁</span><span class="g-callout-body">템플릿 시트를 ‘사본 만들기’로 복사하면 내 드라이브에 그대로 생깁니다. 이름만 바꿔 바로 수업에 쓰면 됩니다.</span></div>
+
+          <div class="g-h4">5. 누적 데이터를 평가의 증거로</div>
+          <p class="g-p">학생이 웹앱에서 남긴 활동은 그 자리에서 시트에 차곡차곡 적재됩니다. 그래서 이 데이터는 단순한 기록을 넘어, 백워드 설계에서 말하는 ‘수용 가능한 증거’가 됩니다. 학생이 수행한 활동과 결과물이 성취의 증거로 저절로 모이는 셈입니다.</p>
         ` },
-        { idx:'나', name:'구글 시트 사용법', content:'<h3>구글 시트 사용법</h3><p class="g-ph">내용을 채워주세요.</p>' },
-        { idx:'다', name:'구글 앱스스크립트', content:'<h3>구글 앱스스크립트</h3><p class="g-ph">내용을 채워주세요.</p>' }
+        { idx:'나', name:'구글 시트로 학습 데이터 관리하기', content: `
+          <h3>구글 시트로 학습 데이터 관리하기</h3>
+          <p class="g-lead">구글 시트는 별도의 프로그램 설치 없이 웹 브라우저에서 바로 쓰는 스프레드시트 도구입니다. 웹앱 패키지를 구매한 경우, 학습 데이터가 저장되는 시트를 직접 열어 학급에 맞게 관리할 수 있습니다.</p>
+          <div class="g-callout info"><span class="g-callout-tag">안내</span><span class="g-callout-body">이 설명은 웹앱 패키지를 구매한 사용자를 위한 것입니다. 기본 이용자는 구글 계정·시트 연동 없이 제공된 웹앱 주소(링크)를 열어 사용합니다.</span></div>
+
+          <div class="g-h4">1. 구글 시트에 접속하고 파일 열기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-title">구글 메인 화면에서 접속</div><div class="g-step-text">구글 홈페이지(google.com)에 로그인한 뒤, 오른쪽 위 ‘구글 앱’ 아이콘(점 9개)을 누르고 메뉴에서 초록색 <strong>[Google 스프레드시트]</strong> 아이콘을 클릭합니다. (구글 앱 메뉴 구성은 계정마다 조금씩 다를 수 있습니다.)</div></div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-title">드라이브에서 기존 시트 열기</div><div class="g-step-text">‘구글 앱’ 아이콘에서 <strong>[드라이브]</strong>를 연 뒤, 위쪽 검색창에 파일 이름 일부(예: “시계요정의 하루”, “명단”)를 입력하거나 왼쪽 <strong>[최근 문서함]</strong>에서 파일을 찾아 <strong>더블 클릭</strong>하면 새 탭에서 시트가 열립니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs"><img src="img/guide/sheet-access-menu.png" alt="구글 앱 메뉴에서 스프레드시트 선택"><img src="img/guide/sheet-access-drive.png" alt="드라이브에서 시트 검색·최근 문서함"></div><div class="g-fig-cap">구글 시트 접속 방법</div></div>
+
+          <div class="g-h4">2. 구글 시트 기본 관리 원칙</div>
+          <p class="g-p">앱스 스크립트와 연동되어 데이터베이스 역할을 하는 구글 시트를 안전하게 관리하려면 다음 원칙을 지켜야 합니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/sheet-fullscreen.png" alt="구글 시트 전체 화면 — 헤더행·학생명단·시트 탭"></div><div class="g-fig-cap">구글 시트 전체 화면</div></div>
+          <ul class="g-sublist">
+            <li><strong>시트 탭 이름·헤더행은 수정하지 않기</strong> — 앱스 스크립트 코드가 “명단”, “연습_시계읽기”처럼 특정 시트 이름을 찾아 데이터를 기록하므로 절대 바꾸면 안 됩니다.</li>
+            <li><strong>데이터는 바로 수정·반영</strong> — 헤더를 제외한 셀 값을 직접 고치면(이름 오타, 잘못된 점수 등) 변경 내용이 웹앱 화면에 그대로 반영됩니다.</li>
+            <li><strong>되돌리기</strong> — 잘못 지웠다면 Ctrl + Z 또는 상단 왼쪽 실행 취소(↶) 버튼으로 복구합니다.</li>
+            <li><strong>빈 시트 추가는 자유</strong> — 메모나 통계용 새 시트를 추가해도 앱스 스크립트 작동에 영향을 주지 않습니다. 단, 기본 시트와 같은 이름은 쓰지 마세요.</li>
+          </ul>
+          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">화면 맨 아래 기본 시트 탭 이름과 헤더행(번호·이름 등)을 한 글자라도 바꾸거나 띄어쓰기를 더하면, 웹앱이 데이터를 저장하지 못해 오류가 납니다. ‘학생명단’ 시트에는 텍스트만 붙여넣기(Shift + Ctrl + V)로 학급 명단을 넣으세요.</span></div>
+          <div class="g-callout tip"><span class="g-callout-tag">팁</span><span class="g-callout-body">며칠 전 상태로 완전히 되돌리려면 ‘파일 → 버전 기록 → 버전 기록 보기’(또는 오른쪽 위 시계 아이콘)를 여세요. 모든 변경 내역이 시간대별로 저장되어 원하는 시점으로 복원할 수 있습니다.</span></div>
+
+          <div class="g-h4">3. 사이드바·대시보드로 학습 데이터 시각화하기</div>
+          <p class="g-p">이 시트에는 일반 보조기능 대신 ‘학습 데이터 시각화 대시보드’가 들어 있습니다. 시트 탭의 내용을 실시간으로 추출해 교사가 보기 편한 통계로 바꿔 오른쪽에 보여 줍니다.</p>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-title">상단 맞춤 메뉴</div><div class="g-step-text">복잡한 수식 없이, 구글 시트를 열면 상단 메뉴 영역에 전용 맞춤 메뉴가 자동으로 생성됩니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/sheet-topmenu.png" alt="구글 시트 상단의 전용 맞춤 메뉴"></div><div class="g-fig-cap">구글 시트의 상단 버튼</div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-title">클릭 한 번으로 열기</div><div class="g-step-text">이 상단 메뉴에서 ‘사이드바/대시보드 열기’를 누르면 화면 오른쪽에 사이드바가, 전체 화면에는 대시보드가 나타납니다. X를 눌러 언제든 닫을 수 있습니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs"><img src="img/guide/sheet-sidebar.png" alt="학습 통계 사이드바"><img src="img/guide/sheet-dashboard.png" alt="학습 통계 대시보드"></div><div class="g-fig-cap">사이드바 및 대시보드</div></div>
+          <p class="g-p">사이드바와 대시보드는 각 시트 탭의 원본 데이터를 기반으로 작동합니다. 학생 이름을 클릭하면 그 학생의 연습·문제 풀이 기록이 결합되어 나타나고, 많이 틀리는 문제와 자주 맞추는 문제, 자기주도 학습 태도(끝까지 해결하려 노력했는지), 미션 통과 여부까지 한눈에 분석할 수 있습니다.</p>
+          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">사이드바·대시보드는 구글 공식 마켓 앱이 아니라 교실 환경에 맞게 만든 맞춤 프로그램(앱스 스크립트)입니다. 상단 버튼을 처음 누를 때 최초 1회 구글 보안 승인 절차가 필요하며, 방법은 ‘구글 앱스스크립트로 웹앱 설정하고 배포하기’ 항목을 참고하세요.</span></div>
+        ` },
+        { idx:'다', name:'구글 앱스스크립트로 웹앱 설정하고 배포하기', content: `
+          <h3>구글 앱스스크립트로 웹앱 설정하고 배포하기</h3>
+          <p class="g-lead">이 책의 웹앱은 구글 시트와 연동되어 있습니다. 웹앱을 내 환경에 맞게 쓰려면 먼저 구글 시트 사본을 만들고, 앱스 스크립트를 웹앱으로 배포해야 합니다. 사본 만들기부터 배포·권한 승인까지 순서대로 안내합니다.</p>
+          <div class="g-callout info"><span class="g-callout-tag">안내</span><span class="g-callout-body">이 과정은 웹앱 패키지를 구매해 직접 시트·코드를 다루는 경우를 위한 것입니다. 기본 이용자는 제공된 웹앱 주소(링크)만 열어 사용합니다.</span></div>
+
+          <div class="g-h4">1. 구글 시트 사본 만들기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">크롬 주소창에 제공받은 웹 주소를 넣으면 ‘문서 복사’ 화면이 나옵니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-text">파란색 <strong>[사본 만들기]</strong> 버튼을 누르면 ‘○○의 사본’으로 내 드라이브에 저장됩니다. 앱 이름을 클릭하면 원하는 이름으로 바꿀 수 있습니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-01-copy.png" alt="구글 시트 사본 만들기"></div><div class="g-fig-cap">시트 사본 저장</div></div>
+
+          <div class="g-h4">2. 구글 시트에서 앱스 스크립트 열기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">사본 시트의 상단 메뉴에서 <code>확장 프로그램 → Apps Script</code>를 클릭합니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-02-open.png" alt="확장 프로그램에서 Apps Script 열기"></div><div class="g-fig-cap">앱스스크립트 열기</div></div>
+
+          <div class="g-h4">3. 앱스 스크립트의 파일 구조 이해하기</div>
+          <p class="g-p">앱스 스크립트는 기능을 담당하는 <strong>스크립트 파일(Code.gs)</strong>과 화면을 담당하는 <strong>HTML 파일(index.html)</strong>로 구성됩니다.</p>
+          <p class="g-p"><strong>스크립트 파일(Code.gs)</strong> — 사용자에게 보이지 않는 서버 영역으로 데이터 관리·인증 등을 담당합니다. 패키지를 구매한 경우 이미 Code.gs가 들어 있습니다. 바이브 코딩으로 코드를 바꾼 경우에는 기존 내용을 전부 지우고(Ctrl+A → 삭제), 생성형 AI가 준 Code.gs를 복사해 원래 자리에 붙여 넣습니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-03-codegs.png" alt="Code.gs 붙여넣기"></div><div class="g-fig-cap">Code.gs 붙여넣기</div></div>
+          <p class="g-p"><strong>HTML 파일(index.html)</strong> — 화면의 레이아웃·디자인을 담당합니다. 파일 목록 오른쪽의 <code>+</code>를 눌러 HTML을 선택하고 이름을 <code>index</code>로 바꾸면 index.html이 만들어집니다. 패키지를 구매한 경우 이미 들어 있습니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-04-addhtml.png" alt="HTML 파일 추가"></div><div class="g-fig-cap">index.html 파일 추가</div></div>
+          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">Code.gs가 HTML을 불러오는 부분이 <code>index</code>(소문자)인지 <code>Index</code>(대문자)인지, 실제 파일명과 정확히 맞아야 합니다. 맞지 않으면 웹앱이 열리지 않고 오류가 납니다. 패키지 구매자는 이미 맞춰져 있으니 수정하지 마세요.</span></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-05-filename.png" alt="index.html 파일명 확인"></div><div class="g-fig-cap">파일명 확인</div></div>
+
+          <div class="g-h4">4. 웹앱으로 새로 배포하기</div>
+          <p class="g-p">시트 사본을 만든 뒤에는 반드시 앱스 스크립트를 새로 배포해야 웹앱이 정상 작동합니다.</p>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-title">새 배포</div><div class="g-step-text">앱스 스크립트 화면 오른쪽 위 <strong>[배포]</strong> → <strong>[새 배포]</strong>를 선택합니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-06-deploy.png" alt="새 배포 선택"></div><div class="g-fig-cap">웹앱 배포</div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-title">웹 앱 유형 선택</div><div class="g-step-text">팝업 왼쪽 위 유형 선택(톱니바퀴)을 눌러 <strong>[웹 앱]</strong>을 고릅니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-07-webapp.png" alt="웹 앱 유형 선택"></div><div class="g-fig-cap">웹앱 선택</div></div>
+          <div class="g-step"><div class="g-step-num">3</div><div class="g-step-body"><div class="g-step-title">액세스 권한 설정 · 승인</div><div class="g-step-text">구성 항목의 ‘액세스 권한이 있는 사용자’를 반드시 <strong>모든 사용자</strong>로 설정한 뒤 배포합니다. 처음 배포하면 권한 승인 창이 나오며, 화면 안내에 따라 승인합니다(아래 6번 참고).</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-08-access.png" alt="액세스 권한을 모든 사용자로 설정"></div><div class="g-fig-cap">모든 사용자로 권한 설정</div></div>
+          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">‘모든 사용자’ 설정을 빠뜨리면 앱 사용 중 오류가 날 수 있습니다.</span></div>
+
+          <div class="g-h4">5. 기존 주소를 유지하며 수정 내용 반영하기</div>
+          <p class="g-p">코드나 시트를 수정했다면 ‘새 배포’가 아니라 <strong>‘배포 관리’</strong>로 업데이트해야 합니다. 새 배포를 하면 웹앱 주소가 바뀌기 때문입니다.</p>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">오른쪽 위 <code>배포 → 배포 관리</code>로 들어갑니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-09-manage.png" alt="배포 관리 열기"></div><div class="g-fig-cap">배포 관리로 수정 반영</div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-text">구성 옆 연필 아이콘을 눌러 버전 목록에서 맨 위의 <strong>새 버전</strong>을 선택합니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">3</div><div class="g-step-body"><div class="g-step-text">‘액세스 권한’을 모든 사용자로 둔 채 <strong>[배포]</strong>를 누르면 기존 주소 그대로 수정 내용이 반영됩니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-10-newver.png" alt="새 버전으로 배포"></div><div class="g-fig-cap">새 버전으로 배포</div></div>
+          <div class="g-callout tip"><span class="g-callout-tag">팁</span><span class="g-callout-body">‘새 배포’는 배포할 때마다 주소가 새로 만들어집니다. 주소를 그대로 유지하고 싶다면 반드시 ‘배포 관리’로 배포하세요. (2026년 기준)</span></div>
+
+          <div class="g-h4">6. 웹앱 실행 권한 승인하기</div>
+          <p class="g-p">새로 배포하거나 시트에 관리 메뉴가 생길 때 권한 승인을 요구합니다. 이 웹앱은 구글 공식 마켓 앱이 아니라 학습 환경에 맞게 만든 맞춤 프로그램이라, 최초 1회에 한해 보안 승인 절차가 필요합니다.</p>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">‘승인이 필요합니다’ 메시지가 뜨면 <strong>[확인]</strong>을 누르고, 현재 시트를 쓰는 본인 구글 계정을 선택합니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-text">“Google에서 확인하지 않은 앱” 경고가 나오면 당황하지 말고 좌측 하단 작은 글씨 <strong>[고급]</strong>을 클릭합니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-11-advanced.png" alt="경고 화면에서 고급 클릭"></div><div class="g-fig-cap">실행 권한 — 고급 선택</div></div>
+          <div class="g-step"><div class="g-step-num">3</div><div class="g-step-body"><div class="g-step-text">펼쳐진 메뉴 맨 아래의 <strong>[○○(으)로 이동(안전하지 않음)]</strong>을 클릭합니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-12-unsafe.png" alt="안전하지 않음으로 이동 클릭"></div><div class="g-fig-cap">실행 권한 — 안전하지 않음 선택</div></div>
+          <div class="g-step"><div class="g-step-num">4</div><div class="g-step-body"><div class="g-step-text">최종 화면에서 <strong>모두 선택</strong>을 체크한 뒤 <strong>[계속]</strong>을 누르면 승인이 완료됩니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-13-allow.png" alt="모두 선택 후 계속"></div><div class="g-fig-cap">모두 선택 후 계속</div></div>
+          <div class="g-callout info"><span class="g-callout-tag">보안 안내</span><span class="g-callout-body">‘안전하지 않음’은 공식 마켓에 등록되지 않은 개인 제작 스크립트일 때 항상 뜨는 표준 경고입니다. 이 웹앱은 시트 안의 학생 명단·학습 데이터(정답률·성공 여부 등)를 읽어 사이드바에 보여 줄 뿐, 외부로 데이터를 유출하거나 계정 정보를 수집하는 코드는 전혀 없으니 안심하고 사용하셔도 됩니다. (2026년 기준)</span></div>
+
+          <div class="g-h4">7. 웹앱 사용 시 유의사항</div>
+          <div class="g-step"><div class="g-step-num">가</div><div class="g-step-body"><div class="g-step-title">상단 안내 문구 닫기</div><div class="g-step-text">앱스 스크립트로 배포한 웹앱을 열면 화면 위에 파란색 안내 문구가 뜹니다. 하단 일부가 가려질 수 있으니 오른쪽 위 X를 눌러 닫고 쓰는 것을 권장합니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/as-14-banner.png" alt="상단 파란색 안내 문구 닫기"></div><div class="g-fig-cap">앱스스크립트로 만든 앱 안내 지움</div></div>
+          <div class="g-step"><div class="g-step-num">나</div><div class="g-step-body"><div class="g-step-title">화면 비율 조정</div><div class="g-step-text">화면이 작거나 잘려 보이면 Ctrl + 마우스 휠(또는 Ctrl + 화살표)이나 브라우저 확대/축소로 비율을 맞춥니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">다</div><div class="g-step-body"><div class="g-step-title">업데이트 후 새로고침</div><div class="g-step-text">웹앱이 업데이트되면 페이지를 새로고침해야 반영됩니다. 바이브 코딩 특성상 일부 구성·이미지가 책과 다를 수 있습니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">라</div><div class="g-step-body"><div class="g-step-title">데이터 보안</div><div class="g-step-text">시트 사본으로 관리하는 모든 데이터는 본인의 구글 드라이브에 저장되며, 웹앱 제작자와 공유되지 않습니다.</div></div></div>
+        ` }
       ]
     },
     ag: {
-      title: '앱 만들기',
+      title: '구글 안티그래비티(Antigravity) 웹앱 코드 수정하기',
       items: [
-        { idx:'가', name:'사전 준비', content: `
-          <h3>사전 준비</h3>
+        { idx:'가', name:'안티그래비티 작업 환경 준비하기', content: `
+          <h3>안티그래비티 작업 환경 준비하기</h3>
           <p class="g-lead">개별 맞춤 웹앱(유료)를 구매한 경우 안티그래비티를 활용하여 코드를 수정하여 사용할 수 있습니다. 안티그래비티는 구글에서 만든 코드 에디터 도구로, 크롬 계정으로 로그인했을 때 가장 원활하게 사용할 수 있습니다. 본격적인 사용에 앞서 간단한 사전 준비가 필요합니다.</p>
           <p class="g-p">안티그래비티를 사용하려면 먼저 작업 공간이 될 폴더와 수정할 파일을 준비해야 합니다.</p>
 
@@ -1465,8 +1600,8 @@
           <div class="g-callout tip"><span class="g-callout-tag">팁</span><span class="g-callout-body">저장 후 파일에 크롬 아이콘이 나타나지 않는다면, 해당 파일에 마우스를 올려 놓은 후 오른쪽 버튼으로 클릭하여 연결 프로그램을 크롬(Chrome)으로 설정합니다. 이렇게 하면 index 파일을 눌러 크롬 창을 통해 수정 중인 앱을 확인할 수 있습니다.</span></div>
           <div class="g-fn">※ 앱스스크립트에서 index.html 파일을 확인하는 방법은 '웹앱 시작 전 준비 → 구글 앱스스크립트'를 참고하세요.</div>
         ` },
-        { idx:'나', name:'기본 사용법', content: `
-          <h3>기본 사용법</h3>
+        { idx:'나', name:'안티그래비티로 웹앱 수정 과정 익히기', content: `
+          <h3>안티그래비티로 웹앱 수정 과정 익히기</h3>
 
           <div class="g-h4">1. 안티그래비티 다운로드</div>
           <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">검색창에서 '안티그래비티(Antigravity)'를 검색한 후, 공식 다운로드 홈페이지에서 본인의 컴퓨터 사양에 맞는 버전을 다운로드합니다.</div></div></div>
@@ -1497,8 +1632,8 @@
           <div class="g-h4">7. 웹앱 배포</div>
           <p class="g-p">완성된 웹앱은 앱스스크립트와 깃허브(GitHub) 등을 통해 배포할 수 있습니다. 자세한 내용은 각각 '구글 앱스스크립트'와 '앱 올리기'를 참고하세요.</p>
         ` },
-        { idx:'다', name:'안티그래비티 100% 활용하기', content: `
-          <h3>안티그래비티 100% 활용하기</h3>
+        { idx:'다', name:'안티그래비티를 효율적으로 활용하기', content: `
+          <h3>안티그래비티를 효율적으로 활용하기</h3>
 
           <div class="g-h4">1. 동시 작업하기</div>
           <p class="g-p">안티그래비티는 여러 창을 동시에 열어 작업할 수 있습니다. 다만, 여러 창에서 동시에 명령을 입력하면 명령이 교차되어 다른 폴더의 파일이 수정되는 오류가 발생할 수 있으니 주의가 필요합니다.</p>
@@ -1526,10 +1661,95 @@
       ]
     },
     gh: {
-      title: '앱 올리기',
+      title: '깃허브(GitHub) 페이지로 웹앱 배포하고 관리하기',
       items: [
-        { idx:'가', name:'깃허브 활용 웹앱 구조', content:'<h3>깃허브 활용 웹앱 구조</h3><p class="g-ph">내용을 채워주세요.</p>' },
-        { idx:'나', name:'깃허브에 내 앱 올리기', content:'<h3>깃허브에 내 앱 올리기</h3><p class="g-ph">내용을 채워주세요.</p>' }
+        { idx:'가', name:'웹앱별 깃허브 배포 필요 여부 확인하기', content: `
+          <h3>웹앱별 깃허브 배포 필요 여부 확인하기</h3>
+          <p class="g-lead">이 책의 웹앱은 학생이 만나는 화면(깃허브 페이지), 데이터(구글 시트), 둘을 잇는 다리(앱스 스크립트)의 같은 구조 위에서 움직입니다. 다만 일부 앱은 앱스 스크립트만으로는 제대로 열리지 않아 깃허브로 배포해야 합니다.</p>
+          <p class="g-p"><strong>깃허브가 꼭 필요한 앱</strong>은 마이크·카메라·음성 같은 미디어 기능이 들어간 앱입니다. 이런 기능은 앱스 스크립트만으로는 권한이 막혀 학생 화면에서 정상 작동하지 않으므로, 반드시 깃허브 페이지에 올려 깃허브 주소로 열어 주어야 합니다. 반대로 화면을 누르고 옮기며 결과만 시트에 저장하는 앱은 앱스 스크립트 주소만으로 충분합니다.</p>
+          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">일부 앱은 앱스 스크립트 주소를 눌렀을 때 <code>{"ok":false,"error":"알 수 없는 요청: "}</code>이 나올 수 있는데, 이는 오류가 아니라 정상 작동 신호입니다. (2026년 기준)</span></div>
+          <p class="g-p">아래에서 내가 쓰려는 앱이 어느 쪽인지 먼저 확인하세요.</p>
+
+          <div class="g-h4">1·2학년군</div>
+          <p class="g-p"><strong>깃허브로 꼭 배포해야 하는 앱</strong><br>유초이음 적응 앱, 마음 튼튼 새싹 학교, 함께 배우는 안전 나침반, 그림에 어울리는 문장 완성하기, 한글자모탐험, 소리나는 대로 읽고 쓰기, 감정 알기 대모험, 한 문장 일기장, 꾸며주는 말 탐험대, 겹받침 읽고 쓰기, 순서대로 말해요, 모으기와 가르기, 50까지의 수모험, 10 만들기, 다함께 도형 탐험대, 창의 분류 박물관, 묶어 세기 탐험대, 몇의 몇 배 탐험대, 곱셈구구-2단·5단, 그림그래프 마법사, 안전탐험, 슬기로운 학교생활, 학교 사람 탐험대, 소리 탐험대, 나만의 보물상자, 분리수거 대장, 사계절 탐정</p>
+          <p class="g-p"><strong>앱스 스크립트·깃허브 모두 배포 가능</strong><br>우리 반 앱 꾸러미, 우리 반 안내반장, 우리 반 무지개 줄넘기, 생각 보물 사냥꾼, 지구지킴이, 띄어쓰기 학습 놀이터, 받침놀이터, 문장부호 스티커북, 헷갈리기 쉬운 낱말, 수학요정의 숫자비교, 시계요정의 하루, 나의 비밀친구</p>
+
+          <div class="g-h4">3·4학년군</div>
+          <p class="g-p">깃허브로 꼭 배포해야 하는 앱이 없습니다. 모든 앱을 앱스 스크립트로 배포할 수 있습니다.</p>
+
+          <div class="g-h4">5·6학년군</div>
+          <p class="g-p"><strong>깃허브로 꼭 배포해야 하는 앱</strong><br>식물의 비밀 공장, 다각형 마스터</p>
+          <p class="g-p"><strong>앱스 스크립트·깃허브 모두 배포 가능</strong><br>SDG’s 리틀 히어로, 계절의 변화 실험실, 과학탐구활동 보고서, 날씨와 우리 생활, 달려라 달려!, 비율 탐험대, 상상 공작소, 도형 왕국의 비밀, 나만의 애니메이션 스튜디오, 스마트 통장, 영양팡팡! 건강팡팡!, 우당탕탕 무역왕, 자전과 공전 탐구 일지</p>
+        ` },
+        { idx:'나', name:'구글 시트·앱스스크립트·깃허브의 연동 구조 이해하기', content: `
+          <h3>구글 시트·앱스스크립트·깃허브의 연동 구조 이해하기</h3>
+          <p class="g-lead">깃허브 웹앱 활용 체계는 역할이 분명합니다. 구글 시트는 ‘바뀌는 것(데이터)’을, 깃허브는 ‘바뀌지 않는 코드’를, 앱스 스크립트는 ‘둘 사이의 다리’를 맡습니다.</p>
+          <p class="g-p">그래서 학급 학생이나 문제 자료가 바뀌면 시트만 손보면 되고, 화면 디자인이 바뀌면 깃허브의 index.html만 손보면 됩니다. 두 가지를 동시에 건드리지 않아도 된다는 점이 큰 이점입니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-01-structure.png" alt="구글 시트·앱스스크립트·깃허브 전체 구조도"></div><div class="g-fig-cap">구글 시트, 앱스스크립트, 깃허브의 전체 구조도</div></div>
+        ` },
+        { idx:'다', name:'수정한 index.html을 깃허브 페이지로 배포하기', content: `
+          <h3>수정한 index.html을 깃허브 페이지로 배포하기</h3>
+          <p class="g-lead">제공된 index.html을 직접 고쳐 ‘내 깃허브’에 올려 나만의 주소로 운영하려는 분을 위한 안내입니다. 대부분의 선생님은 여기까지 할 필요가 없습니다 — 시트 사본만 만들면 앱이 바로 열리니까요. 마이크·카메라·음성 기능이 있는 앱을 직접 수정해 쓸 때만 따라오면 됩니다.</p>
+          <div class="g-callout info"><span class="g-callout-tag">참고</span><span class="g-callout-body">비밀(Secret)이나 자동 배포(Actions) 설정은 필요 없습니다. 파일 하나 올리고 페이지만 켜면 됩니다.</span></div>
+
+          <div class="g-h4">전체 흐름</div>
+          <p class="g-p">코드를 직접 수정할 때는 원본을 훼손하지 않도록 다음 순서를 지킵니다.</p>
+          <ul class="g-sublist">
+            <li>구글 시트를 ‘파일 → 사본 만들기’로 우리 반 전용으로 복사합니다.</li>
+            <li>사본의 ‘확장 프로그램 → Apps Script’에서 Code.gs를 전부 복사해 메모장에 원본으로 보관합니다. 잘못되었을 때 되돌릴 수 있습니다.</li>
+            <li>코드에서 바꿀 부분만 AI로 수정합니다. 시트 머리글 이름 같은 약속된 부분은 건드리지 않습니다.</li>
+            <li>수정한 코드를 다시 앱스 스크립트에 붙여넣고 ‘배포 → 배포 관리 → 새 버전 → 배포’로 같은 주소를 유지한 채 올립니다.</li>
+            <li>마이크·카메라·음성 기능이 있는 앱이라면, 아래 순서대로 index.html을 깃허브에 올려야 학생 화면에 반영됩니다.</li>
+          </ul>
+          <div class="g-callout warn"><span class="g-callout-tag">주의</span><span class="g-callout-body">깃허브 화면은 자주 바뀌어 버전에 따라 모양이 조금 다를 수 있습니다. 큰 흐름은 같으니 안내된 버튼 이름을 화면에서 찾아 누르면 됩니다. (2026년 기준)</span></div>
+
+          <div class="g-h4">1. 배포 준비물 확인하기</div>
+          <ul class="g-sublist">
+            <li>깃허브 계정 (없으면 ‘깃허브 계정 만들기’ 먼저)</li>
+            <li>제공된 index.html 파일 한 개</li>
+          </ul>
+
+          <div class="g-h4">2. index.html 수정하기</div>
+          <p class="g-p">메모장이나 안티그래비티로 index.html을 열어, 문구·색·이미지처럼 바꾸고 싶은 부분을 수정한 뒤 저장합니다. 웹앱 주소(데이터를 주고받는 백엔드 주소)를 적는 줄은, 제공된 백엔드를 그대로 쓸 거라면 손대지 않습니다. 시트 번호는 주소에 자동으로 붙습니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-02-exec.png" alt="웹앱 주소 예시 — 끝부분이 /exec"></div><div class="g-fig-cap">웹앱 주소 예시: 주소 끝부분이 ‘/exec’ 형태</div></div>
+
+          <div class="g-h4">3. 깃허브에 로그인하기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">github.com에 들어가 오른쪽 위 <strong>[Sign in]</strong>으로 로그인합니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-03-login.png" alt="github.com 로그인 화면"></div><div class="g-fig-cap">github.com 로그인 화면</div></div>
+
+          <div class="g-h4">4. 공개 저장소 만들기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">오른쪽 위 <code>+</code> → <strong>[New repository]</strong>를 누릅니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-text">‘Repository name’에 영문 이름(예: my-app)을 적고 <strong>Public</strong>을 고른 뒤 <strong>[Create repository]</strong>를 누릅니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-04-newrepo.png" alt="New repository 만들기"></div><div class="g-fig-cap">저장소 이름 입력 → Public 선택 → Create repository</div></div>
+
+          <div class="g-h4">5. 저장소에 index.html 올리기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">빈 저장소 화면 중간의 <strong>‘uploading an existing file’</strong> 링크를 누릅니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-05-upload.png" alt="uploading an existing file 링크"></div><div class="g-fig-cap">‘uploading an existing file’</div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-text">index.html을 화면으로 끌어다 놓거나 ‘choose your files’로 고른 뒤, 아래 초록색 <strong>[Commit changes]</strong>를 누르면 저장됩니다.</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-06-commit.png" alt="파일 끌어다 놓기 후 Commit changes"></div><div class="g-fig-cap">파일 끌어다 놓기 → Commit changes</div></div>
+          <div class="g-callout tip"><span class="g-callout-tag">팁</span><span class="g-callout-body">‘creating a new file’을 눌러 index.html 코드를 붙여넣고 파일명을 index.html로 저장해도 됩니다.</span></div>
+
+          <div class="g-h4">6. 깃허브 페이지 배포 설정하기</div>
+          <div class="g-step"><div class="g-step-num">1</div><div class="g-step-body"><div class="g-step-text">위쪽 <strong>Settings</strong> → 왼쪽 메뉴 <strong>Pages</strong>로 갑니다.</div></div></div>
+          <div class="g-step"><div class="g-step-num">2</div><div class="g-step-body"><div class="g-step-text">‘Source’를 <strong>Deploy from a branch</strong>로 두고, ‘Branch’를 <strong>main</strong>, 폴더는 <strong>/(root)</strong>로 고른 뒤 <strong>[Save]</strong>를 누릅니다. (None으로 되어 있으면 main으로 바꿉니다.)</div></div></div>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-07-pages.png" alt="Settings → Pages 배포 설정"></div><div class="g-fig-cap">Settings → Pages에서 Deploy from a branch / main 설정</div></div>
+
+          <div class="g-h4">7. 학생 접속 주소 확인하기</div>
+          <p class="g-p">저장하고 1~2분 지나면 같은 Pages 화면 위쪽에 <strong>‘Your site is live at …’</strong>과 함께 주소가 뜹니다. 주소는 <code>https://[사용자명].github.io/[저장소명]/</code> 모양이며, 이 주소가 학생 접속 주소입니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-08-live.png" alt="Your site is live at 주소 표시"></div><div class="g-fig-cap">‘Your site is live at’ 주소 표시</div></div>
+
+          <div class="g-h4">8. 수정한 index.html 다시 반영하기</div>
+          <p class="g-p">저장소에서 <code>Code → index.html</code>을 열고 연필 아이콘(Edit)으로 고친 뒤 <strong>[Commit changes]</strong>를 누릅니다. 또는 같은 방법으로 새 index.html을 다시 업로드합니다. 바꿨는데 화면에 안 보이면 새로 고침(Ctrl+R / ⌘+R), 그래도 안 되면 강력 새로 고침(Ctrl+Shift+R / ⌘+Shift+R)으로 캐시를 비웁니다.</p>
+          <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/gh-09-edit.png" alt="index.html 열었을 때 화면"></div><div class="g-fig-cap">index.html 열었을 때 화면</div></div>
+
+          <div class="g-h4">문제 해결 — 배포가 안 될 때</div>
+          <ul class="g-sublist">
+            <li><strong>‘404’나 빈 화면</strong> — 보통 아직 배포 중입니다. 1~2분 기다렸다 새로 고칩니다.</li>
+            <li><strong>그래도 안 됨</strong> — 파일 이름이 index.html이 맞는지, ‘Source’가 Deploy from a branch / main / (root)인지 확인합니다.</li>
+            <li><strong>데이터가 안 불러와짐(‘Loading…’)</strong> — 2단계의 백엔드 주소 줄이 지워지거나 잘못되지 않았는지 봅니다.</li>
+          </ul>
+          <div class="g-callout warn"><span class="g-callout-tag">꼭 지킬 것</span><span class="g-callout-body">저장소는 Public이라 누구나 코드를 볼 수 있습니다. 학생 이름·번호 같은 개인정보와 구글 시트(편집기) 주소는 코드에 절대 넣지 마세요(데이터는 시트에만 둡니다). 웹앱 주소는 비밀이 아니므로 코드에 있어도 됩니다. 학부모에게는 깃허브 페이지 링크만 공유하고, 큰 변경 전에는 ‘Code → Download ZIP’으로 백업해 둡니다.</span></div>
+        ` }
       ]
     }
   };
