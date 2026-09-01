@@ -100,6 +100,16 @@
   /* 도서 구매 카드 */
   .book-hero{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;margin-bottom:44px;padding-bottom:36px;border-bottom:1px solid var(--line);}
   .book-title{font-size:1.22rem;font-weight:800;color:var(--ink);margin:14px 0 14px;letter-spacing:-.01em;line-height:1.4;}
+  .book-trio{position:relative;width:350px;height:200px;display:flex;align-items:center;justify-content:center;}
+  .book-trio .tc{position:absolute;width:106px;aspect-ratio:440/620;border-radius:2px 7px 7px 2px;overflow:hidden;background:#fff;box-shadow:4px 9px 22px -8px rgba(28,27,23,.42);}
+  .book-trio .tc img{width:100%;height:100%;display:block;object-fit:cover;}
+  .book-trio .t1{transform:translateX(-108px) rotate(-7deg);z-index:1;}
+  .book-trio .t2{transform:scale(1.05);z-index:3;}
+  .book-trio .t3{transform:translateX(108px) rotate(7deg);z-index:2;}
+  @media(max-width:860px){.book-hero{grid-template-columns:1fr;gap:26px;}
+    .book-hero-cover{display:flex;justify-content:center;}
+    .book-trio{transform:scale(.8);margin:-14px 0;}}
+  @media(max-width:420px){.book-trio{transform:scale(.66);margin:-30px 0;}}
   .book-hero-cover .book-cover{width:150px;}
   .book-3d.small{display:flex;align-items:center;justify-content:center;}
   .book-3d.small .book-cover{box-shadow:4px 4px 14px rgba(28,27,23,.3),0 20px 36px -20px rgba(28,27,23,.45);}
@@ -990,13 +1000,28 @@
         <p class="muted" style="margin-bottom:0;">문서 속 성취기준을, 아이가 손으로 직접 움직이며 배우는 학습 웹앱으로 옮겼습니다. 학년군마다 39개, 그리고 그 앱을 교사가 직접 고쳐 쓰는 방법까지.</p>
       </div>
       <div class="book-hero-cover">
-        <div class="book-3d small">
-          <div class="book-wrap">
-            <div class="book-spine"></div>
-            <div class="book-cover" id="bookCoverBuyPage"></div>
-          </div>
+        <div class="book-trio" id="bookTrio" aria-label="학년군별 세 권 표지">
+          <div class="tc t1"></div>
+          <div class="tc t2"></div>
+          <div class="tc t3"></div>
         </div>
       </div>
+    </div>
+
+    <h2 class="s" style="margin-top:40px;">구매처</h2>
+    <div class="buy-row" style="margin-bottom:46px;padding-bottom:40px;border-bottom:1px solid var(--line);">
+      <a class="buy-link" href="https://search.kyobobook.co.kr/search?keyword=%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95%EC%9D%84+%EC%BD%94%EB%93%9C%EB%A1%9C+%EC%98%AE%EA%B8%B0%EB%8B%A4&amp;gbCode=TOT&amp;target=total" target="_blank" rel="noopener">
+        <span>교보문고</span>
+        <span class="buy-arrow">→</span>
+      </a>
+      <a class="buy-link" href="https://www.yes24.com/product/search?domain=ALL&amp;query=%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95%EC%9D%84%20%EC%BD%94%EB%93%9C%EB%A1%9C%20%EC%98%AE%EA%B8%B0%EB%8B%A4" target="_blank" rel="noopener">
+        <span>예스24</span>
+        <span class="buy-arrow">→</span>
+      </a>
+      <a class="buy-link" href="https://www.aladin.co.kr/search/wsearchresult.aspx?SearchTarget=All&amp;SearchWord=%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95%EC%9D%84+%EC%BD%94%EB%93%9C%EB%A1%9C+%EC%98%AE%EA%B8%B0%EB%8B%A4" target="_blank" rel="noopener">
+        <span>알라딘</span>
+        <span class="buy-arrow">→</span>
+      </a>
     </div>
 
     <div class="book-lead">
@@ -1089,7 +1114,7 @@
 
     <p class="book-quote">교육과정을 코드로 옮긴다는 것은 결국, 배움을 다시 아이 가까이에 놓는 일입니다.</p>
 
-    <h2 class="s" style="margin-top:48px;">구매처</h2>
+    <h2 class="s" style="margin-top:44px;">구매처</h2>
     <div class="buy-row">
       <a class="buy-link" href="https://search.kyobobook.co.kr/search?keyword=%EA%B5%90%EC%9C%A1%EA%B3%BC%EC%A0%95%EC%9D%84+%EC%BD%94%EB%93%9C%EB%A1%9C+%EC%98%AE%EA%B8%B0%EB%8B%A4&amp;gbCode=TOT&amp;target=total" target="_blank" rel="noopener">
         <span>교보문고</span>
@@ -1104,6 +1129,7 @@
         <span class="buy-arrow">→</span>
       </a>
     </div>
+
     <p class="biz-note" style="margin-top:28px;">웹앱 패키지는 <a href="#buyapp" data-p="buyapp">웹앱 패키지 구매</a>, 연수는 <a href="#training" data-p="training">원격 연수</a>에서 확인하세요.</p>
   </section>
 
@@ -2248,16 +2274,19 @@
     if(inner && dw) fitScaleBox(outer, inner, dw);
   });
 
-  // 도서 구매 페이지 — 표지 이미지 재사용 (base64 중복 방지)
+  // 도서 구매 페이지 — 홈의 표지 3장을 그대로 재사용 (base64 중복 방지)
   (function(){
-    const master = document.getElementById('coverImgMaster');
-    const target = document.getElementById('bookCoverBuyPage');
-    if(master && target){
+    const src = document.querySelectorAll('#home .cover-trio .tc img');
+    const box = document.getElementById('bookTrio');
+    if(!src.length || !box) return;
+    const slots = box.querySelectorAll('.tc');
+    slots.forEach(function(slot, i){
+      if(!src[i]) return;
       const img = document.createElement('img');
-      img.src = master.src;
-      img.alt = master.alt;
-      target.appendChild(img);
-    }
+      img.src = src[i].src;
+      img.alt = src[i].alt || '';
+      slot.appendChild(img);
+    });
   })();
 
   setBand("1-2");
