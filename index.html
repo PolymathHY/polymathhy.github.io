@@ -668,7 +668,7 @@
       </div>
       <div class="promo-card app" data-p="buyapp">
         <div class="promo-ic"></div>
-        <div class="promo-txt"><div class="pt">웹앱 패키지 구매</div><div class="pd">책 없이 웹앱만, 패키지로 이용하기</div></div>
+        <div class="promo-txt"><div class="pt">웹앱 패키지 구매</div><div class="pd">우리 반 데이터로, 우리 반에 맞게 쓰기</div></div>
         <div class="promo-go">&rarr;</div>
       </div>
       <div class="promo-card train" data-p="training">
@@ -813,7 +813,7 @@
   <section class="page" id="guide">
     <p class="eyebrow">Guide</p>
     <h1 class="t">웹앱 활용법</h1>
-    <p class="muted" style="margin-bottom:18px;">카드를 선택하면 세부 항목이 펼쳐져요. 항목을 클릭하면 내용을 확인할 수 있어요.</p>
+    <p class="muted" style="margin-bottom:18px;">웹앱을 우리 반에 맞게 준비하고, 고치고, 배포하는 방법을 단계별로 담았습니다. 아래 01~03 중 필요한 것을 골라 보세요.</p>
 
     <div class="g-callout info" style="margin:0 0 28px;">
       <span class="g-callout-tag">용어 안내</span>
@@ -1134,11 +1134,12 @@
   <section class="page" id="buyapp">
     <p class="eyebrow">Web App Package</p>
     <h1 class="t">웹앱 패키지 구매</h1>
-    <p class="muted" style="margin-bottom:30px;">책 없이 학습 웹앱만 이용하고 싶을 때, 웹앱 패키지를 구매하는 안내입니다.</p>
+    <p class="muted" style="margin-bottom:30px;">학습 기록을 우리 반 구글 시트에 쌓고, 코드까지 직접 고쳐 쓰고 싶을 때 이용하는 패키지입니다.</p>
 
     <h2 class="s">구매 안내</h2>
     <div class="pkg-box">
       <p class="pkg-desc">웹앱 패키지는 아이스크림 쌤클래스의 <strong>쌤콘텐츠</strong>에서 구매하실 수 있도록 준비하고 있습니다.</p>
+      <p class="pkg-desc" style="margin-top:10px;">각 웹앱의 주소와 활용 안내는 책에 담겨 있습니다. <strong>책과 함께 이용하실 때 가장 온전하게 활용</strong>하실 수 있습니다.</p>
       <ul class="pkg-benefits">
         <li>1~6학년군 전 과목 학습 웹앱 이용</li>
         <li>구글 시트 연동으로 우리 반 학습 데이터 관리</li>
@@ -2205,6 +2206,27 @@
       subPanel.classList.remove('hide');
     });
   });
+
+  /* 웹앱 활용법 — 카드별 개별 주소
+     #guide-db 구글 시트·앱스 스크립트 / #guide-ag 구글 안티그래비티 / #guide-gh 깃허브 페이지 */
+  (function(){
+    var MAP = { 'guide-db':'db', 'guide-ag':'ag', 'guide-gh':'gh' };
+    function openFromHash(){
+      var h = (location.hash || '').replace('#','');
+      var key = MAP[h];
+      if(!key) return;
+      goPage('guide', true);
+      var card = document.querySelector('.g-card[data-guide="' + key + '"]');
+      if(!card) return;
+      if(!card.classList.contains('on')) card.click();
+      setTimeout(function(){
+        var panel = document.getElementById('gSubPanel');
+        if(panel) window.scrollTo({ top: panel.getBoundingClientRect().top + window.scrollY - 92, behavior:'smooth' });
+      }, 140);
+    }
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
+  })();
 
   document.getElementById('gBack').addEventListener('click', function(){
     document.getElementById('gContentPanel').classList.add('hide');
