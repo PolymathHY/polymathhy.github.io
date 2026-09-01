@@ -100,16 +100,13 @@
   /* 도서 구매 카드 */
   .book-hero{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;margin-bottom:44px;padding-bottom:36px;border-bottom:1px solid var(--line);}
   .book-title{font-size:1.22rem;font-weight:800;color:var(--ink);margin:14px 0 14px;letter-spacing:-.01em;line-height:1.4;}
-  .book-trio{position:relative;width:350px;height:200px;display:flex;align-items:center;justify-content:center;}
-  .book-trio .tc{position:absolute;width:106px;aspect-ratio:440/620;border-radius:2px 7px 7px 2px;overflow:hidden;background:#fff;box-shadow:4px 9px 22px -8px rgba(28,27,23,.42);}
+  .book-trio{display:flex;align-items:center;justify-content:center;gap:15px;}
+  .book-trio .tc{position:relative;width:142px;aspect-ratio:440/620;border-radius:2px 8px 8px 2px;overflow:hidden;background:#fff;transform:none;box-shadow:4px 11px 26px -10px rgba(28,27,23,.4);transition:transform .3s ease;}
   .book-trio .tc img{width:100%;height:100%;display:block;object-fit:cover;}
-  .book-trio .t1{transform:translateX(-108px) rotate(-7deg);z-index:1;}
-  .book-trio .t2{transform:scale(1.05);z-index:3;}
-  .book-trio .t3{transform:translateX(108px) rotate(7deg);z-index:2;}
-  @media(max-width:860px){.book-hero{grid-template-columns:1fr;gap:26px;}
-    .book-hero-cover{display:flex;justify-content:center;}
-    .book-trio{transform:scale(.8);margin:-14px 0;}}
-  @media(max-width:420px){.book-trio{transform:scale(.66);margin:-30px 0;}}
+  .book-trio .tc:hover{transform:translateY(-8px);}
+  @media(max-width:980px){.book-hero{grid-template-columns:1fr;gap:26px;}
+    .book-hero-cover{display:flex;justify-content:center;}}
+  @media(max-width:520px){.book-trio{gap:10px;}.book-trio .tc{width:100px;}}
   .book-hero-cover .book-cover{width:150px;}
   .book-3d.small{display:flex;align-items:center;justify-content:center;}
   .book-3d.small .book-cover{box-shadow:4px 4px 14px rgba(28,27,23,.3),0 20px 36px -20px rgba(28,27,23,.45);}
