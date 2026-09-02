@@ -379,13 +379,22 @@
   .must-note{color:var(--ink-3);}
   .must .g-fig-imgs.solo img{max-width:520px;}
   .must .g-fig{margin:16px 0 18px;}
-  .must-more{border-top:1px solid var(--line);margin-top:20px;}
-  .must-more summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:15px 0 14px;font-size:1rem;font-weight:700;color:var(--ink);}
-  .must-more summary::-webkit-details-marker{display:none;}
-  .must-more summary::after{content:"\25BE";margin-left:auto;font-size:.78rem;color:var(--accent);transition:transform .2s;}
-  .must-more[open] summary::after{transform:rotate(180deg);}
-  .must-more summary .num{flex:none;font-size:.74rem;font-weight:800;color:var(--accent);background:var(--accent-tint);border-radius:7px;padding:3px 9px;}
-  .must-body{padding:2px 0 20px;}
+  .must-more{margin-top:24px;}
+  .must-more>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:13px;padding:16px 20px;border:1.5px solid var(--accent);border-radius:13px;background:var(--accent-tint);color:var(--accent);font-size:1.02rem;font-weight:800;letter-spacing:-.015em;transition:box-shadow .15s,background .15s;}
+  .must-more>summary:hover{box-shadow:0 10px 22px -14px var(--accent);}
+  .must-more>summary::-webkit-details-marker{display:none;}
+  .must-more[open]>summary{border-radius:13px 13px 0 0;}
+  .mm-ico{flex:none;width:25px;height:25px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;line-height:1;}
+  .mm-ico::before{content:"+";}
+  .must-more[open] .mm-ico::before{content:"\2212";}
+  .mm-t{flex:1;min-width:0;}
+  .mm-act{flex:none;font-size:.84rem;font-weight:700;opacity:.9;}
+  .must-more .a-close{display:none;}
+  .must-more[open] .a-open{display:none;}
+  .must-more[open] .a-close{display:inline;}
+  .must-body{border:1.5px solid var(--accent-tint);border-top:0;border-radius:0 0 13px 13px;padding:20px 20px 22px;}
+  .must-close{display:flex;align-items:center;gap:8px;margin:24px auto 0;font-family:var(--kr);font-size:.94rem;font-weight:700;color:var(--accent);background:var(--white);border:1.5px solid var(--accent);border-radius:999px;padding:11px 26px;cursor:pointer;transition:background .15s,color .15s;}
+  .must-close:hover{background:var(--accent);color:var(--paper);}
   .must-body p{font-size:.94rem;color:var(--ink-2);line-height:1.8;margin:0 0 12px;}
   .must-body h5{font-size:.99rem;font-weight:800;color:var(--ink);margin:18px 0 8px;}
   .must-fn{font-size:.86rem;color:var(--ink-3);line-height:1.7;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
@@ -901,7 +910,7 @@
 
       <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/fd-01-two-ways.png" alt="기본 웹앱과 웹앱 패키지를 비교한 그림" loading="lazy"></div><div class="g-fig-cap">나에게 맞는 방법 고르기</div></div>
       <details class="must-more">
-        <summary><span class="num">더 보기</span>개인 전용 웹앱으로 전환하기 — 7단계</summary>
+        <summary><span class="mm-ico"></span><span class="mm-t">개인 전용 웹앱으로 전환하기 — 7단계</span><span class="mm-act"><span class="a-open">펼쳐 보기</span><span class="a-close">접기</span></span></summary>
         <div class="must-body">
           <p>웹앱 패키지는 마이크·카메라가 원활히 작동하도록 <strong>깃허브 전용 웹앱</strong>과 <strong>구글 앱스 스크립트 전용 웹앱</strong>으로 나뉩니다. 아래는 전체 흐름이고, 단계별 자세한 화면은 01번 안내에 있습니다.</p>
           <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/fd-04-package-use.png" alt="명단 수정, 문제은행·피드백 수정, 대시보드 확인, 코드 수정을 정리한 그림" loading="lazy"></div><div class="g-fig-cap">웹앱 패키지로 할 수 있는 일</div></div>
@@ -917,6 +926,7 @@
           <div class="g-step"><span class="g-step-num">7</span><span class="g-step-body"><span class="g-step-title">학생 접속 주소 공유하기 <span style="color:var(--ink-3);font-weight:600;">(깃허브 전용)</span></span><span class="g-step-text">연결을 마치면 <b>[선생님 설정]</b> 창에 학생 접속 주소가 만들어집니다. <b>[학생 주소 복사하기]</b>를 눌러 학생과 가정에 공유합니다.</span></span></div>
           <div class="g-fig"><div class="g-fig-imgs solo"><img src="img/guide/fd-07-student-url.png" alt="학생 주소 복사하기 버튼이 있는 선생님 설정 화면" loading="lazy"></div><div class="g-fig-cap">학생 접속 주소가 만들어진 화면</div></div>
           <p class="must-fn">단계별 자세한 설명과 화면은 <a href="#guide-db">01 구글 시트 · 앱스 스크립트 → 다. 구글 앱스 스크립트로 웹앱 설정하고 배포하기</a>에서 꼭 확인하세요. 깃허브 전용 웹앱의 연결·공유 과정은 웹앱 패키지와 함께 제공되는 안내서에도 화면별로 정리되어 있습니다.</p>
+          <button type="button" class="must-close">&#9650; 접기</button>
         </div>
       </details>
     </div>
@@ -2368,6 +2378,17 @@
 
       subPanel.classList.remove('hide');
     });
+  });
+
+  // 필독 — 본문 아래 [접기] 버튼
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.must-close') : null;
+    if(!btn) return;
+    var d = btn.closest('details');
+    if(!d) return;
+    d.open = false;
+    var top = d.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: top, behavior: 'smooth' });
   });
 
   /* 웹앱 활용법 — 카드별 개별 주소
