@@ -709,7 +709,7 @@
       <button class="btab on" data-tab="notice">공지사항</button>
       <button class="btab" data-tab="update">코드 업데이트 소식</button>
       <button class="btab" data-tab="qna">코드 수정 요청</button>
-      <button class="btab" data-tab="idea">웹앱 아이디어 제안</button>
+      <button class="btab" data-tab="idea">아이디어 제안</button>
     </div>
 
     <!-- 공지사항 -->
@@ -744,7 +744,7 @@
     <div class="board-panel" id="tab-idea">
       <div id="ideaView" class="hide"></div>
       <div id="ideaMain">
-        <p class="muted" style="margin:0 0 16px;max-width:none;font-size:.93rem;">교실에서 필요한데 아직 없는 앱을 들려주세요. 모든 아이디어가 앱이 되지는 않지만, 다음 앱을 구상할 때 소중한 참고가 됩니다.</p>
+        <p class="muted" style="margin:0 0 16px;max-width:none;font-size:.93rem;">사용하던 앱에 “이 기능만 있으면 좋을 텐데” 싶었던 것과 수업하다 “이런 앱 하나 있으면 좋겠다” 싶었던 것을 적어 주세요. 반영된 내용은 「코드 업데이트 소식」에 올립니다.</p>
         <div class="board-top">
           <span class="col" id="ideaCount">불러오는 중...</span>
           <button class="write" id="ideaWriteBtn">글쓰기</button>
@@ -771,7 +771,7 @@
           </select>
         </div>
         <div class="mfield" id="fAppField">
-          <label>관련 앱</label>
+          <label id="fAppLabel">관련 앱</label>
           <select id="f-app"></select>
         </div>
       </div>
@@ -1598,10 +1598,10 @@
     idea: {
       list:'getIdea', post:'getIdeaPost', add:'postIdea', del:'deleteIdea',
       listEl:'ideaList', countEl:'ideaCount', mainEl:'ideaMain', viewEl:'ideaView',
-      rowCls:'idea-row', showApp:false,
-      modalTitle:'웹앱 아이디어 제안',
-      contentPh:'어떤 수업에서, 학생들이 무엇을 하도록 돕는 앱이면 좋을지 적어 주세요',
-      empty:'아직 올라온 아이디어가 없어요. 어떤 앱이 필요한지 들려주세요!'
+      rowCls:'idea-row', showApp:true, appOptional:true,
+      modalTitle:'아이디어 제안',
+      contentPh:'새 앱이면 어떤 수업에 필요한지, 기능 추가면 어떤 앱에 무엇이 있으면 좋을지 적어 주세요',
+      empty:'아직 올라온 아이디어가 없어요. 첫 번째로 적어 주세요.'
     }
   };
 
@@ -1746,6 +1746,10 @@
     document.getElementById('writeModalTitle').textContent = C.modalTitle;
     document.getElementById('f-content').placeholder = C.contentPh;
     document.getElementById('fAppField').style.display = C.showApp ? '' : 'none';
+    // 새 앱 아이디어면 '해당 없음'을 그대로 두고, 기능 추가면 앱을 고릅니다.
+    document.getElementById('fAppLabel').textContent =
+      C.appOptional ? '관련 앱 (기능 추가라면 선택)' : '관련 앱';
+    document.getElementById('f-app').selectedIndex = 0;
     uploadedImgUrls = [];
     document.getElementById('imgPreviewRow').innerHTML = '';
     document.getElementById('writeModal').classList.remove('hide');
