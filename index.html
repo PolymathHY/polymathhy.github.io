@@ -462,13 +462,13 @@
   .g-back{font-family:var(--kr);font-size:.9rem;font-weight:700;color:var(--accent);background:var(--white);border:1px solid var(--line);border-radius:10px;cursor:pointer;padding:9px 16px 9px 13px;margin-bottom:22px;display:inline-flex;align-items:center;gap:7px;transition:background .18s,border-color .18s,color .18s,transform .18s;box-shadow:0 2px 6px -3px rgba(25,24,15,.18);}
   .g-back:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateX(-2px);}
   .g-back:active{transform:translateX(-2px) scale(.97);}
-  /* 아래로 내려가도 따라다니는 목록으로 버튼 */
-  .g-back-float{position:fixed;right:26px;bottom:26px;z-index:40;font-family:var(--kr);font-size:.92rem;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:999px;cursor:pointer;padding:13px 22px 13px 18px;display:none;align-items:center;gap:8px;box-shadow:0 12px 28px -10px rgba(31,45,68,.6),0 2px 6px -2px rgba(25,24,15,.3);opacity:0;transform:translateY(10px);transition:opacity .22s ease,transform .22s ease,background .18s;}
-  .g-back-float.show{display:inline-flex;opacity:1;transform:translateY(0);}
-  .g-back-float:hover{background:var(--accent-dark);}
-  .g-back-float:active{transform:translateY(0) scale(.96);}
-  .g-back-float .gbf-ar{font-size:1.02rem;line-height:1;}
-  @media(max-width:600px){.g-back-float{right:16px;bottom:16px;padding:12px 18px 12px 15px;font-size:.88rem;}}
+  /* 글을 다 읽은 자리에 놓이는 목록으로 버튼 */
+  .g-back-end{display:flex;justify-content:flex-end;margin:26px 0 4px;}
+  .g-back-float{font-family:var(--kr);font-size:.94rem;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:999px;cursor:pointer;padding:14px 30px 14px 24px;display:inline-flex;align-items:center;gap:9px;box-shadow:0 10px 24px -12px rgba(31,45,68,.55);transition:background .18s,transform .18s,box-shadow .18s;}
+  .g-back-float:hover{background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 16px 30px -14px rgba(31,45,68,.6);}
+  .g-back-float:active{transform:translateY(0) scale(.97);}
+  .g-back-float .gbf-ar{font-size:1.04rem;line-height:1;}
+  @media(max-width:600px){.g-back-end{margin:22px 0 2px;}.g-back-float{padding:13px 24px 13px 19px;font-size:.9rem;}}
   .g-content-body{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:28px;}
   .g-content-body h3{font-size:1.2rem;font-weight:800;margin-bottom:16px;}
   .g-content-body p{color:var(--ink-2);line-height:1.8;margin-bottom:12px;}
@@ -1050,7 +1050,7 @@
         <aside class="g-toc" id="gToc"></aside>
         <article class="g-content-body" id="gContentBody"></article>
       </div>
-      <button class="g-back-float" id="gBackFloat" type="button" aria-label="목록으로 돌아가기"><span class="gbf-ar">←</span><span>목록으로</span></button>
+      <div class="g-back-end"><button class="g-back-float" id="gBackFloat" type="button" aria-label="목록으로 돌아가기"><span class="gbf-ar">←</span><span>목록으로</span></button></div>
     </div>
   </section>
 
@@ -1642,7 +1642,6 @@
     // 페이지가 보이게 된 뒤 크기를 다시 계산합니다.
     document.querySelectorAll('.scalebox-outer').forEach(function(o){ if(o._fit) o._fit(); });
     window.scrollTo({top:0,behavior:'instant' in window ? 'instant':'auto'});
-    if(window.guideFloatSpy) window.guideFloatSpy();
     if(!fromHash){
       try{ history.replaceState(null,'', p==='home' ? (location.pathname+location.search) : '#'+p); }
       catch(e){ location.hash = (p==='home' ? '' : p); }
@@ -2526,7 +2525,6 @@
           subPanel.classList.add('hide');
           contentPanel.classList.remove('hide');
           buildGuideToc();
-          if(window.guideFloatSpy) window.guideFloatSpy();
           window.scrollTo({top: contentPanel.getBoundingClientRect().top + window.scrollY - 82, behavior:'smooth'});
         });
       });
@@ -2572,27 +2570,13 @@
     var sp = document.getElementById('gSubPanel');
     cp.classList.add('hide');
     sp.classList.remove('hide');
-    document.getElementById('gBackFloat').classList.remove('show');
     // 아래에서 눌렀을 때 목록이 바로 보이도록 위치를 맞춥니다.
     window.scrollTo({ top: sp.getBoundingClientRect().top + window.scrollY - 92, behavior: 'smooth' });
   }
   document.getElementById('gBack').addEventListener('click', guideGoBack);
   document.getElementById('gBackFloat').addEventListener('click', guideGoBack);
 
-  // 글을 읽으려고 아래로 내리면 목록으로 버튼이 따라 나옵니다.
-  function guideFloatSpy(){
-    var cp = document.getElementById('gContentPanel');
-    var fb = document.getElementById('gBackFloat');
-    var top = document.getElementById('gBack');
-    if(!cp || !fb || !top) return;
-    var page = document.getElementById('guide');
-    if(cp.classList.contains('hide') || !page || !page.classList.contains('on')){ fb.classList.remove('show'); return; }
-    var gone = top.getBoundingClientRect().bottom < 0;   // 위쪽 버튼이 화면 밖으로 나갔을 때
-    fb.classList.toggle('show', gone);
-  }
-  window.guideFloatSpy = guideFloatSpy;
-  window.addEventListener('scroll', guideFloatSpy, {passive:true});
-  window.addEventListener('resize', guideFloatSpy);
+
   function buildGuideToc(){
     var body=document.getElementById('gContentBody'), toc=document.getElementById('gToc');
     if(!body||!toc) return;
