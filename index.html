@@ -596,6 +596,10 @@
   .faq-q[open] summary::after{transform:rotate(180deg);}
   .faq-num{flex:none;font-size:.78rem;font-weight:800;color:var(--accent);background:var(--accent-tint);border-radius:7px;padding:3px 8px;margin-top:2px;}
   .faq-body{padding:14px 0 18px;}
+  .faq-group-t{display:flex;align-items:center;gap:9px;font-size:.98rem;font-weight:800;color:var(--ink);margin:26px 0 12px;}
+  .faq-group-t:first-child{margin-top:4px;}
+  .faq-group-t span{font-size:.76rem;font-weight:700;color:var(--accent);background:var(--accent-tint);border-radius:999px;padding:3px 9px;}
+  .faq-list{display:flex;flex-direction:column;gap:10px;}
   .faq-ex{font-size:.88rem;color:var(--ink-2);background:var(--paper-2);border-radius:9px;padding:10px 14px;margin-bottom:13px;line-height:1.65;}
   .faq-ex strong{color:var(--ink);margin-right:6px;}
   .faq-body p{font-size:.94rem;color:var(--ink-2);line-height:1.78;margin:0 0 10px;}
@@ -842,6 +846,7 @@
 
     <div class="board-tabs">
       <button class="btab on" data-tab="notice">공지사항</button>
+      <button class="btab" data-tab="faq">자주 묻는 질문</button>
       <button class="btab" data-tab="update">코드 업데이트 소식</button>
       <button class="btab" data-tab="qna">코드 수정 요청</button>
       <button class="btab" data-tab="idea">아이디어 제안</button>
@@ -853,6 +858,12 @@
       <div id="noticeMain">
         <div id="noticeList"><div class="board-loading">불러오는 중...</div></div>
       </div>
+    </div>
+
+    <!-- 자주 묻는 질문 -->
+    <div class="board-panel" id="tab-faq">
+      <p class="muted" style="margin:0 0 16px;max-width:none;font-size:.93rem;">문의로 들어온 질문 가운데 여러 분이 함께 궁금해하신 것을 모았습니다. 질문을 누르면 답이 펼쳐집니다.</p>
+      <div id="faqList"><div class="board-loading">불러오는 중...</div></div>
     </div>
 
     <!-- 코드 업데이트 소식 -->
@@ -1778,6 +1789,46 @@
     return s;
   }
 
+  // ── 자주 묻는 질문 ────────────────────────────────────────────
+  var faqLoaded = false;
+  function loadFaq() {
+    if(faqLoaded) return;          // 한 번만 불러옵니다
+    var box = document.getElementById('faqList');
+    if(GAS_URL === 'YOUR_GAS_DEPLOY_URL'){
+      box.innerHTML = '<div class="board-loading">GAS URL을 연결하면 질문이 표시됩니다.</div>';
+      return;
+    }
+    gasGet({action:'getFaq'}).then(function(res){
+      if(!res.ok || !res.rows.length){
+        box.innerHTML = '<div class="board-loading">아직 올라온 질문이 없어요.</div>';
+        return;
+      }
+      faqLoaded = true;
+      // 구분(주제)별로 묶습니다
+      var groups = [], map = {};
+      res.rows.forEach(function(r){
+        var g = (r.category || '').trim() || '기타';
+        if(!map[g]){ map[g] = []; groups.push(g); }
+        map[g].push(r);
+      });
+      var n = 0, html = '';
+      groups.forEach(function(g){
+        html += '<div class="faq-group-t">' + g + '<span>' + map[g].length + '</span></div>';
+        html += '<div class="faq-list">';
+        map[g].forEach(function(r){
+          n++;
+          html += '<details class="faq-q"><summary><span class="faq-num">Q' + n + '</span>'
+               +  (r.question || '') + '</summary><div class="faq-body">'
+               +  boardHtml(r.answer || '') + '</div></details>';
+        });
+        html += '</div>';
+      });
+      box.innerHTML = html;
+    }).catch(function(){
+      box.innerHTML = '<div class="board-loading">불러오기 실패.</div>';
+    });
+  }
+
   function loadNotices() {
     if(GAS_URL === 'YOUR_GAS_DEPLOY_URL'){
       document.getElementById('noticeList').innerHTML =
@@ -2173,6 +2224,7 @@
       btn.classList.add('on');
       document.getElementById('tab-'+btn.dataset.tab).classList.add('on');
       if(btn.dataset.tab === 'notice') loadNotices();
+      if(btn.dataset.tab === 'faq') loadFaq();
       if(btn.dataset.tab === 'update') loadUpdate();
       if(btn.dataset.tab === 'qna') loadBoard('qna');
       if(btn.dataset.tab === 'idea') loadBoard('idea');
